@@ -1,8 +1,7 @@
 aid: quicknode
 name: QuickNode
 description: >-
-  With industry-leading solutions on the worlds fastest, most reliable
-  infrastructure 
+  With industry-leading solutions on the worlds fastest, most reliable infrastructure.
 type: Index
 position: Consumer
 access: 3rd-Party
@@ -18,8 +17,7 @@ apis:
   - aid: quicknode:quicknode
     name: QuickNode
     description: >-
-      With industry-leading solutions on the worlds fastest, most reliable
-      infrastructure 
+      With industry-leading solutions on the worlds fastest, most reliable infrastructure.
     humanURL: ' https://www.quicknode.com/'
     tags:
       - API
