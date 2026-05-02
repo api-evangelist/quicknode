@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quicknode/refs/heads/main/json-schema/quicknode-pin-schema.json",
+  "title": "QuickNode IPFS Pin",
+  "description": "Schema describing a QuickNode IPFS pin record.",
+  "type": "object",
+  "required": ["requestId", "cid", "status"],
+  "properties": {
+    "requestId": {
+      "type": "string",
+      "description": "Identifier of the pin request."
+    },
+    "cid": {
+      "type": "string",
+      "description": "Content identifier of the pinned object."
+    },
+    "name": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["queued", "pinning", "pinned", "failed"]
+    },
+    "size": {
+      "type": "integer",
+      "description": "Size of pinned content in bytes."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

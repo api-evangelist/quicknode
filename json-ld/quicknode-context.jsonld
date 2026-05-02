@@ -1,0 +1,58 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "name": "name",
+    "description": "description",
+    "url": "url",
+    "provider": "provider",
+    "category": "category",
+    "documentation": {
+      "@id": "https://schema.org/documentation",
+      "@type": "@id"
+    },
+    "termsOfService": {
+      "@id": "https://schema.org/termsOfService",
+      "@type": "@id"
+    }
+  },
+  "@type": "WebAPI",
+  "name": "QuickNode Blockchain Infrastructure APIs",
+  "description": "QuickNode is a blockchain infrastructure platform that exposes RPC, REST, and gRPC APIs across 77+ blockchains, plus services for IPFS pinning, key-value storage, real-time streams, and webhooks.",
+  "url": "https://api.quicknode.com",
+  "documentation": "https://www.quicknode.com/docs/welcome",
+  "termsOfService": "https://www.quicknode.com/terms-of-service",
+  "provider": {
+    "@type": "Organization",
+    "name": "QuickNode",
+    "url": "https://www.quicknode.com/"
+  },
+  "category": [
+    "Blockchain",
+    "Web3",
+    "Infrastructure",
+    "RPC",
+    "IPFS",
+    "Streaming Data"
+  ],
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Web3 Developers, dApp Builders, Indexers"
+  },
+  "potentialAction": [
+    {
+      "@type": "ConsumeAction",
+      "name": "Pin to IPFS",
+      "target": "https://api.quicknode.com/ipfs/rest/v1/pinning"
+    },
+    {
+      "@type": "ConsumeAction",
+      "name": "Read Key from Key-Value Store",
+      "target": "https://api.quicknode.com/kv/rest/v1/databases/{database}/keys/{key}"
+    },
+    {
+      "@type": "ConsumeAction",
+      "name": "List Streams",
+      "target": "https://api.quicknode.com/streams/rest/v1/streams"
+    }
+  ]
+}

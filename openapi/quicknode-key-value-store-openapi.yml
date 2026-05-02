@@ -1,0 +1,177 @@
+openapi: 3.1.0
+info:
+  title: QuickNode Key-Value Store REST API
+  description: >-
+    The QuickNode Key-Value Store REST API provides a managed, large-scale
+    key-value storage service accessible over HTTP. Developers can create
+    namespaces (databases), write and read keys, batch-load data, and
+    delete keys, making it suitable for storing onchain-related metadata,
+    indexer state, and application configuration alongside QuickNode's
+    blockchain infrastructure. Authentication uses an API key issued from
+    the QuickNode dashboard.
+  version: '1.0.0'
+  contact:
+    name: QuickNode Support
+    url: https://www.quicknode.com/support
+  termsOfService: https://www.quicknode.com/terms-of-service
+externalDocs:
+  description: QuickNode Key-Value Store Documentation
+  url: https://www.quicknode.com/docs/key-value-store
+servers:
+  - url: https://api.quicknode.com/kv/rest/v1
+    description: QuickNode Key-Value Store REST production server
+tags:
+  - name: Database
+    description: Manage key-value namespaces (databases).
+  - name: Keys
+    description: Read, write, and delete keys within a database.
+  - name: Batch
+    description: Bulk-load operations against a database.
+paths:
+  /databases:
+    get:
+      tags:
+        - Database
+      summary: List databases
+      operationId: listDatabases
+      responses:
+        '200':
+          description: Successful response
+    post:
+      tags:
+        - Database
+      summary: Create a database
+      operationId: createDatabase
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '201':
+          description: Database created
+  /databases/{database}:
+    delete:
+      tags:
+        - Database
+      summary: Delete a database
+      operationId: deleteDatabase
+      parameters:
+        - name: database
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Database deleted
+  /databases/{database}/keys/{key}:
+    get:
+      tags:
+        - Keys
+      summary: Get a value by key
+      operationId: getKey
+      parameters:
+        - name: database
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+    put:
+      tags:
+        - Keys
+      summary: Set a value for a key
+      operationId: setKey
+      parameters:
+        - name: database
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                value:
+                  type: string
+      responses:
+        '200':
+          description: Key set
+    delete:
+      tags:
+        - Keys
+      summary: Delete a key
+      operationId: deleteKey
+      parameters:
+        - name: database
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Key deleted
+  /databases/{database}/batch:
+    post:
+      tags:
+        - Batch
+      summary: Bulk write keys
+      operationId: batchWrite
+      parameters:
+        - name: database
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      key:
+                        type: string
+                      value:
+                        type: string
+      responses:
+        '200':
+          description: Batch processed
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+security:
+  - ApiKeyAuth: []

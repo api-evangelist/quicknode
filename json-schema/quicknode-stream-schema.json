@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quicknode/refs/heads/main/json-schema/quicknode-stream-schema.json",
+  "title": "QuickNode Stream",
+  "description": "Schema describing a QuickNode Streams configuration.",
+  "type": "object",
+  "required": ["id", "name", "network", "status"],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "network": {
+      "type": "string",
+      "description": "Blockchain network identifier (e.g. ethereum-mainnet, solana-mainnet)."
+    },
+    "dataset": {
+      "type": "string",
+      "description": "Dataset (e.g. blocks, transactions, logs)."
+    },
+    "filter": {
+      "type": "string",
+      "description": "JavaScript or SQL filter expression applied to stream events."
+    },
+    "destination": {
+      "type": "string",
+      "enum": ["webhook", "postgres", "snowflake", "s3"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "active", "paused", "errored", "deleted"]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

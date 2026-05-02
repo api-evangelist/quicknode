@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/quicknode/refs/heads/main/json-schema/quicknode-kv-schema.json",
+  "title": "QuickNode Key-Value Record",
+  "description": "Schema describing a QuickNode Key-Value Store record.",
+  "type": "object",
+  "required": ["database", "key"],
+  "properties": {
+    "database": {
+      "type": "string",
+      "description": "Name of the key-value database."
+    },
+    "key": {
+      "type": "string"
+    },
+    "value": {
+      "type": ["string", "number", "boolean", "object", "array", "null"]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}
