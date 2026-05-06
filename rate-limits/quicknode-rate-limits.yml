@@ -4,114 +4,81 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: QuickNode
 providerId: quicknode
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
 tags:
   - Blockchain
   - Web3
-  - Infrastructure
   - RPC
-  - IPFS
-  - Streaming Data
-  - Webhooks
-  - Key-Value Store
   - Rate Limiting
-  - Quotas
   - Throttling
-description: Machine-readable rate limit definitions for the QuickNode API surface. Captures per-tier
-  quotas, burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to
-  be replaced with published provider limits.
-headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+description: QuickNode applies a per-second request cap and a monthly credit budget per endpoint. Each
+  RPC method consumes a number of credits weighted by its computational cost; exceeding the requests-per-second
+  ceiling returns 429 Too Many Requests, while exhausting the credit budget pushes the account onto the
+  per-million-credit overage rate. Method-level rate limiting is available on Accelerate and above.
+sources:
+  - https://www.quicknode.com/pricing
+  - https://www.quicknode.com/docs/welcome
 responseCodes:
   throttled: 429
-  quotaExceeded: 429
   serviceUnavailable: 503
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - QuickNode Core API
-      - QuickNode IPFS API
-      - QuickNode Streams API
-      - QuickNode Key-Value Store API
-      - QuickNode Webhooks
-      - QuickNode Marketplace Add-ons
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - QuickNode Core API
-      - QuickNode IPFS API
-      - QuickNode Streams API
-      - QuickNode Key-Value Store API
-      - QuickNode Webhooks
-      - QuickNode Marketplace Add-ons
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - QuickNode Core API
-      - QuickNode IPFS API
-      - QuickNode Streams API
-      - QuickNode Key-Value Store API
-      - QuickNode Webhooks
-      - QuickNode Marketplace Add-ons
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - QuickNode Core API
-      - QuickNode IPFS API
-      - QuickNode Streams API
-      - QuickNode Key-Value Store API
-      - QuickNode Webhooks
-      - QuickNode Marketplace Add-ons
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - QuickNode Core API
-      - QuickNode IPFS API
-      - QuickNode Streams API
-      - QuickNode Key-Value Store API
-      - QuickNode Webhooks
-      - QuickNode Marketplace Add-ons
+  - name: Free Trial - Requests Per Second
+    scope: endpoint
+    metric: requests_per_second
+    limit: 15
+    timeFrame: second
+    notes: Free trial tier; 10M credits per month.
+  - name: Build - Requests Per Second
+    scope: endpoint
+    metric: requests_per_second
+    limit: 50
+    timeFrame: second
+    notes: Build tier; 80M credits per month, $0.62 per 1M credits over allowance.
+  - name: Accelerate - Requests Per Second
+    scope: endpoint
+    metric: requests_per_second
+    limit: 125
+    timeFrame: second
+    notes: Accelerate tier; 450M credits per month, $0.55 per 1M credits over allowance, method-level
+      rate limiting available.
+  - name: Scale - Requests Per Second
+    scope: endpoint
+    metric: requests_per_second
+    limit: 250
+    timeFrame: second
+    notes: Scale tier; 950M credits per month, $0.53 per 1M credits over allowance.
+  - name: Business - Requests Per Second
+    scope: endpoint
+    metric: requests_per_second
+    limit: 500
+    timeFrame: second
+    notes: Business tier; 2B credits per month, $0.50 per 1M credits over allowance.
+  - name: Enterprise - Requests Per Second
+    scope: endpoint
+    metric: requests_per_second
+    limit: custom
+    notes: Enterprise tier; negotiated RPS and credit allowance, dedicated clusters available.
+  - name: Per-Method Credit Cost
+    scope: endpoint
+    metric: credit
+    limit: varies
+    notes: Each RPC method consumes a credit weight reflecting computational cost; trace_, debug_, and
+      archive methods cost more than simple eth_blockNumber lookups.
 policies:
+  - name: 429 Throttling
+    description: When the per-second request ceiling is exceeded the API returns 429 Too Many Requests;
+      clients should back off and retry.
+  - name: Credit Overage
+    description: Once the monthly credit budget is exhausted requests continue to succeed and are billed
+      at the per-million-credit overage rate for the active plan. Overages exceeding $200 in a billing
+      period are charged immediately on Build and above; smaller overages settle at cycle end.
+  - name: Method-Level Rate Limiting
+    description: Accelerate, Scale, Business, and Enterprise plans expose method-level rate-limit configuration
+      so consumers can cap individual RPC methods independently of the endpoint-wide RPS.
   - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+    description: Clients should implement exponential backoff with jitter on 429 responses and cache
+      responses where possible to reduce credit consumption.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

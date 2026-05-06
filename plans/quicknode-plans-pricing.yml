@@ -4,184 +4,331 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: QuickNode
 providerId: quicknode
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
 tags:
   - Blockchain
   - Web3
   - Infrastructure
   - RPC
   - IPFS
-  - Streaming Data
-  - Webhooks
-  - Key-Value Store
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
+description: QuickNode prices its blockchain infrastructure platform on a monthly subscription model
+  with included API credits and a per-million-credit overage rate. Each tier raises the credit allowance,
+  the requests-per-second cap, the number of endpoints, and the support SLA. Annual prepayment yields
+  roughly a 15% discount. Enterprise is custom-quoted with volume discounts, dedicated clusters, SSO/RBAC,
+  SOC2 attestation, and crypto payment options. Charges that exceed $200 in-month are billed immediately
+  on Build and above; smaller overages settle at cycle end.
+sources:
+  - https://www.quicknode.com/pricing
 plans:
   - id: quicknode-free
     name: Free
     type: freemium
-    description: Free entry tier for the QuickNode API surface. Intended for evaluation, prototyping,
-      and low-volume integrations. Real limits and pricing must be reconciled with the provider's published
-      plan documentation.
+    description: Free trial tier for evaluation; 10M credits per month at 15 RPS.
     entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 1000
+      - label: Monthly Subscription
+        name: subscription
+        type: subscription
+        metric: month
+        limit: 1
         timeFrame: month
-        geo: global
-        domains:
-          - https://{endpoint}.quiknode.pro/{token}/
-          - https://api.quicknode.com/ipfs/rest
-          - https://api.quicknode.com/streams/rest/v1
-          - https://api.quicknode.com/kv/rest/v1
         unit: 1
-        price: '0.00'
+        price: '$0'
         userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
-        geo: global
-        domains:
-          - https://{endpoint}.quiknode.pro/{token}/
-          - https://api.quicknode.com/ipfs/rest
-          - https://api.quicknode.com/streams/rest/v1
-          - https://api.quicknode.com/kv/rest/v1
+      - label: Included API Credits
+        name: api_credits
+        type: quota
+        metric: credit
+        limit: 10000000
+        timeFrame: month
         unit: 1
-        price: '0.00'
+        price: included
+        userMultiplied: false
+      - label: Requests Per Second
+        name: rps
+        type: tiered
+        metric: requests_per_second
+        limit: 15
+        timeFrame: second
+        unit: 1
+        price: included
         userMultiplied: false
     elements:
-      - name: Public Documentation
+      - name: 1 Endpoint
+      - name: All Major Blockchains
+      - name: Multi-Chain Endpoints
+      - name: Archive Data
       - name: Community Support
-      - name: Sandbox Access
-      - name: QuickNode Core API
-      - name: QuickNode IPFS API
-      - name: QuickNode Streams API
-      - name: QuickNode Key-Value Store API
-      - name: QuickNode Webhooks
-      - name: QuickNode Marketplace Add-ons
-  - id: quicknode-pro
-    name: Professional
-    type: paid
-    description: Production tier for QuickNode. Provides higher quotas, priority support, and access to
-      the broader API portfolio. Pricing placeholder; align with the provider's pricing page.
+  - id: quicknode-build
+    name: Build
+    type: subscription
+    description: Entry paid tier at $49/month ($42/month annual); 80M credits, 50 RPS, 24-hour support SLA.
     entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
+      - label: Monthly Subscription
+        name: subscription
+        type: subscription
+        metric: month
+        limit: 1
         timeFrame: month
-        geo: global
-        domains:
-          - https://{endpoint}.quiknode.pro/{token}/
-          - https://api.quicknode.com/ipfs/rest
-          - https://api.quicknode.com/streams/rest/v1
-          - https://api.quicknode.com/kv/rest/v1
         unit: 1
-        price: TBD
+        price: '$49'
         userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains:
-          - https://{endpoint}.quiknode.pro/{token}/
-          - https://api.quicknode.com/ipfs/rest
-          - https://api.quicknode.com/streams/rest/v1
-          - https://api.quicknode.com/kv/rest/v1
+      - label: Annual Subscription
+        name: subscription_annual
+        type: subscription
+        metric: month
+        limit: 1
+        timeFrame: month
         unit: 1
-        price: '0.00'
+        price: '$42'
         userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
+      - label: Included API Credits
+        name: api_credits
+        type: quota
+        metric: credit
+        limit: 80000000
+        timeFrame: month
+        unit: 1
+        price: included
+        userMultiplied: false
+      - label: Requests Per Second
+        name: rps
+        type: tiered
+        metric: requests_per_second
+        limit: 50
+        timeFrame: second
+        unit: 1
+        price: included
+        userMultiplied: false
+      - label: Credit Overage
+        name: credit_overage
         type: metered
-        metric: requests
+        metric: credit
         limit: -1
         timeFrame: month
-        geo: global
-        domains:
-          - https://{endpoint}.quiknode.pro/{token}/
-          - https://api.quicknode.com/ipfs/rest
-          - https://api.quicknode.com/streams/rest/v1
-          - https://api.quicknode.com/kv/rest/v1
-        unit: 1000
-        price: TBD
+        unit: 1000000
+        price: '$0.62'
         userMultiplied: false
     elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: QuickNode Core API
-      - name: QuickNode IPFS API
-      - name: QuickNode Streams API
-      - name: QuickNode Key-Value Store API
-      - name: QuickNode Webhooks
-      - name: QuickNode Marketplace Add-ons
+      - name: Up to 10 Endpoints
+      - name: Streams
+      - name: Webhooks
+      - name: IPFS
+      - name: Trace and Debug Tools
+      - name: Ticket Support (24-hour SLA)
+  - id: quicknode-accelerate
+    name: Accelerate
+    type: subscription
+    description: $249/month ($212/month annual); 450M credits, 125 RPS, 12-hour support SLA, method-level
+      rate limiting.
+    entries:
+      - label: Monthly Subscription
+        name: subscription
+        type: subscription
+        metric: month
+        limit: 1
+        timeFrame: month
+        unit: 1
+        price: '$249'
+        userMultiplied: false
+      - label: Annual Subscription
+        name: subscription_annual
+        type: subscription
+        metric: month
+        limit: 1
+        timeFrame: month
+        unit: 1
+        price: '$212'
+        userMultiplied: false
+      - label: Included API Credits
+        name: api_credits
+        type: quota
+        metric: credit
+        limit: 450000000
+        timeFrame: month
+        unit: 1
+        price: included
+        userMultiplied: false
+      - label: Requests Per Second
+        name: rps
+        type: tiered
+        metric: requests_per_second
+        limit: 125
+        timeFrame: second
+        unit: 1
+        price: included
+        userMultiplied: false
+      - label: Credit Overage
+        name: credit_overage
+        type: metered
+        metric: credit
+        limit: -1
+        timeFrame: month
+        unit: 1000000
+        price: '$0.55'
+        userMultiplied: false
+    elements:
+      - name: Up to 20 Endpoints
+      - name: Method-Level Rate Limiting
+      - name: Streams
+      - name: Webhooks
+      - name: IPFS
+      - name: Ticket Support (12-hour SLA)
+  - id: quicknode-scale
+    name: Scale
+    type: subscription
+    description: $499/month ($424/month annual); 950M credits, 250 RPS, 8-hour support SLA, advanced
+      security and metrics.
+    entries:
+      - label: Monthly Subscription
+        name: subscription
+        type: subscription
+        metric: month
+        limit: 1
+        timeFrame: month
+        unit: 1
+        price: '$499'
+        userMultiplied: false
+      - label: Annual Subscription
+        name: subscription_annual
+        type: subscription
+        metric: month
+        limit: 1
+        timeFrame: month
+        unit: 1
+        price: '$424'
+        userMultiplied: false
+      - label: Included API Credits
+        name: api_credits
+        type: quota
+        metric: credit
+        limit: 950000000
+        timeFrame: month
+        unit: 1
+        price: included
+        userMultiplied: false
+      - label: Requests Per Second
+        name: rps
+        type: tiered
+        metric: requests_per_second
+        limit: 250
+        timeFrame: second
+        unit: 1
+        price: included
+        userMultiplied: false
+      - label: Credit Overage
+        name: credit_overage
+        type: metered
+        metric: credit
+        limit: -1
+        timeFrame: month
+        unit: 1000000
+        price: '$0.53'
+        userMultiplied: false
+    elements:
+      - name: Up to 50 Endpoints
+      - name: Advanced Security
+      - name: Advanced Metrics
+      - name: Method-Level Rate Limiting
+      - name: Ticket Support (8-hour SLA)
+  - id: quicknode-business
+    name: Business
+    type: subscription
+    description: $999/month ($849/month annual); 2B credits, 500 RPS, 8-hour support SLA.
+    entries:
+      - label: Monthly Subscription
+        name: subscription
+        type: subscription
+        metric: month
+        limit: 1
+        timeFrame: month
+        unit: 1
+        price: '$999'
+        userMultiplied: false
+      - label: Annual Subscription
+        name: subscription_annual
+        type: subscription
+        metric: month
+        limit: 1
+        timeFrame: month
+        unit: 1
+        price: '$849'
+        userMultiplied: false
+      - label: Included API Credits
+        name: api_credits
+        type: quota
+        metric: credit
+        limit: 2000000000
+        timeFrame: month
+        unit: 1
+        price: included
+        userMultiplied: false
+      - label: Requests Per Second
+        name: rps
+        type: tiered
+        metric: requests_per_second
+        limit: 500
+        timeFrame: second
+        unit: 1
+        price: included
+        userMultiplied: false
+      - label: Credit Overage
+        name: credit_overage
+        type: metered
+        metric: credit
+        limit: -1
+        timeFrame: month
+        unit: 1000000
+        price: '$0.50'
+        userMultiplied: false
+    elements:
+      - name: Up to 50 Endpoints
+      - name: Advanced Security
+      - name: Advanced Metrics
+      - name: Method-Level Rate Limiting
+      - name: Ticket Support (8-hour SLA)
   - id: quicknode-enterprise
     name: Enterprise
     type: enterprise
-    description: Custom-negotiated tier for QuickNode. Includes dedicated capacity, contractual SLAs,
-      security review, data residency options, and named technical account management.
+    description: Custom-quoted enterprise plan; volume discounts, dedicated clusters, SSO/RBAC, SOC2
+      attestation, crypto payment options.
     entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: -1
+      - label: Monthly Subscription
+        name: subscription
+        type: subscription
+        metric: month
+        limit: 1
         timeFrame: month
-        geo: configurable
-        domains:
-          - https://{endpoint}.quiknode.pro/{token}/
-          - https://api.quicknode.com/ipfs/rest
-          - https://api.quicknode.com/streams/rest/v1
-          - https://api.quicknode.com/kv/rest/v1
         unit: 1
         price: custom
         userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains:
-          - https://{endpoint}.quiknode.pro/{token}/
-          - https://api.quicknode.com/ipfs/rest
-          - https://api.quicknode.com/streams/rest/v1
-          - https://api.quicknode.com/kv/rest/v1
+      - label: Included API Credits
+        name: api_credits
+        type: quota
+        metric: credit
+        limit: -1
+        timeFrame: month
+        unit: 1
+        price: custom
+        userMultiplied: false
+      - label: Requests Per Second
+        name: rps
+        type: tiered
+        metric: requests_per_second
+        limit: -1
+        timeFrame: second
         unit: 1
         price: custom
         userMultiplied: false
     elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
-      - name: Contractual SLA
-      - name: Security & Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: QuickNode Core API
-      - name: QuickNode IPFS API
-      - name: QuickNode Streams API
-      - name: QuickNode Key-Value Store API
-      - name: QuickNode Webhooks
-      - name: QuickNode Marketplace Add-ons
+      - name: Dedicated Clusters
+      - name: Custom Infrastructure
+      - name: SSO and RBAC
+      - name: SOC2 Compliance
+      - name: Crypto Payment Options
+      - name: Volume Discounts
+      - name: Prometheus Exporting
+      - name: Enhanced Analytics
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

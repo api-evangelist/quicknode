@@ -1,5 +1,6 @@
 specification: FinOps Framework
 specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
 alignedWith:
   framework: FinOps Foundation Framework
   frameworkUrl: https://www.finops.org/framework/
@@ -8,170 +9,99 @@ alignedWith:
   dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
 provider: QuickNode
 providerId: quicknode
-publisherName: QuickNode
-serviceCategory: API
+publisherName: QuickNode Labs, Inc.
+serviceCategory: Blockchain Infrastructure
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
 tags:
   - Blockchain
   - Web3
-  - Infrastructure
   - RPC
-  - IPFS
-  - Streaming Data
-  - Webhooks
-  - Key-Value Store
   - FinOps
-  - Cost Management
   - FOCUS
-description: FinOps framework definition for the QuickNode API surface. Provides a FOCUS-aligned mapping
-  for cost allocation, usage measurement, and unit-economics reporting across the provider's APIs.
-principles:
-  - name: Visibility
-    description: Make API consumption costs visible to engineering, product, and finance teams in near
-      real-time.
-  - name: Allocation
-    description: Tag every chargeable API call with the consuming team, environment, application, and
-      feature so cost can be allocated.
-  - name: Optimization
-    description: Continuously evaluate request patterns, caching, batching, and tier selection to reduce
-      cost per useful unit of work.
-  - name: Accountability
-    description: Establish budget owners and chargeback or showback flows for each consuming team.
-domains:
-  - name: Understand Usage and Cost
-    capabilities:
-      - Data Ingestion
-      - Allocation
-      - Reporting and Analytics
-      - Anomaly Management
-  - name: Quantify Business Value
-    capabilities:
-      - Planning and Estimating
-      - Forecasting
-      - Budgeting
-      - Benchmarking
-      - Unit Economics
-  - name: Optimize Usage and Cost
-    capabilities:
-      - Architecting for Cloud
-      - Rate Optimization
-      - Workload Optimization
-      - Cloud Sustainability
-      - Licensing and SaaS
-  - name: Manage the FinOps Practice
-    capabilities:
-      - FinOps Practice Operations
-      - FinOps Education and Enablement
-      - Invoicing and Chargeback
-      - Onboarding Workloads
-      - Intersecting Disciplines
+description: FOCUS-aligned FinOps for QuickNode - flat monthly subscription per tier plus a per-million-credit
+  overage charge driven by method-weighted RPC consumption.
+sources:
+  - https://www.quicknode.com/pricing
+  - https://www.quicknode.com/docs/welcome
 billingModel:
-  pricingCategory: Usage-Based
+  pricingCategory: Subscription + Pay-As-You-Go Overage
   billingFrequency: Monthly
   billingCurrency: USD
   chargeCategories:
-    - Usage
     - Purchase
+    - Usage
     - Tax
-    - Credit
     - Adjustment
-  chargeFrequency: Recurring
+    - Credit
 focusColumns:
   ServiceName: QuickNode
-  ServiceCategory: Developer Tools / API
+  ServiceCategory: Blockchain Infrastructure
   ProviderName: QuickNode
-  PublisherName: QuickNode
-  InvoiceIssuerName: QuickNode
-  PricingCategory: Usage-Based
-  PricingUnit: request
+  PublisherName: QuickNode Labs, Inc.
+  InvoiceIssuerName: QuickNode Labs, Inc.
   BillingCurrency: USD
   ChargeCategory: Usage
 meters:
-  - name: api_requests
-    description: Count of billable API requests
-    unit: request
+  - name: subscription_fee
+    description: Recurring monthly or annual plan fee for the active QuickNode tier (Build, Accelerate,
+      Scale, Business, or Enterprise).
+    unit: month
     aggregation: sum
     dimensions:
-      - api
-      - endpoint
-      - tier
+      - plan_tier
+      - billing_cycle
+  - name: api_credits
+    description: Method-weighted credits consumed by RPC, REST, and gRPC requests against the QuickNode
+      endpoint.
+    unit: credit
+    aggregation: sum
+    dimensions:
+      - endpoint_id
+      - chain
+      - method
+      - plan_tier
+  - name: credit_overage
+    description: Credits consumed beyond the included monthly credit allowance for the active plan;
+      billed per million credits at the plan-specific overage rate.
+    unit: credit
+    aggregation: sum
+    dimensions:
+      - endpoint_id
+      - chain
+      - plan_tier
+  - name: endpoints
+    description: Active dedicated endpoints provisioned on the account; each plan caps the number permitted.
+    unit: endpoint
+    aggregation: max
+    dimensions:
+      - chain
       - region
-      - consumer
-  - name: data_egress
-    description: Bytes returned over the network in API responses
-    unit: GB
+  - name: addon_usage
+    description: Marketplace add-on consumption (e.g. Streams, Webhooks, IPFS pinning, Key-Value Store
+      operations) billed by the add-on's own meter.
+    unit: varies
     aggregation: sum
     dimensions:
-      - api
-      - region
-      - consumer
-  - name: compute_seconds
-    description: Server-side compute consumed by the request, where applicable
-    unit: second
-    aggregation: sum
-    dimensions:
-      - api
-      - endpoint
-      - tier
-apis:
-  - name: QuickNode Core API
-    baseURL: https://{endpoint}.quiknode.pro/{token}/
-    tags:
-      - Blockchain
-      - RPC
-      - JSON-RPC
-      - Web3
-    serviceName: QuickNode Core API
-    serviceCategory: API
-  - name: QuickNode IPFS API
-    baseURL: https://api.quicknode.com/ipfs/rest
-    tags:
-      - IPFS
-      - Storage
-      - Pinning
-    serviceName: QuickNode IPFS API
-    serviceCategory: API
-  - name: QuickNode Streams API
-    baseURL: https://api.quicknode.com/streams/rest/v1
-    tags:
-      - Streaming Data
-      - Blockchain
-      - Webhooks
-    serviceName: QuickNode Streams API
-    serviceCategory: API
-  - name: QuickNode Key-Value Store API
-    baseURL: https://api.quicknode.com/kv/rest/v1
-    tags:
-      - Key-Value Store
-      - Storage
-      - Database
-    serviceName: QuickNode Key-Value Store API
-    serviceCategory: API
-  - name: QuickNode Webhooks
-    baseURL: ''
-    tags:
-      - Webhooks
-      - Real-time
-      - Blockchain
-    serviceName: QuickNode Webhooks
-    serviceCategory: API
-  - name: QuickNode Marketplace Add-ons
-    baseURL: ''
-    tags:
-      - Marketplace
-      - Add-ons
-      - NFT
-      - Analytics
-    serviceName: QuickNode Marketplace Add-ons
-    serviceCategory: API
-unitEconomics:
-  - name: Cost per 1K Requests
-    metric: billed_cost / (api_requests / 1000)
-    target: TBD
-  - name: Cost per Active Consumer
-    metric: billed_cost / active_consumers
-    target: TBD
+      - addon_name
+      - endpoint_id
+principles:
+  - name: Visibility
+    description: Use the QuickNode dashboard to observe credit consumption per endpoint and per method;
+      method-level breakdowns highlight which RPC calls (trace_, debug_, archive) dominate spend.
+  - name: Allocation
+    description: Provision separate endpoints per consuming team, environment, or chain so credit usage
+      and overage charges can be attributed; enterprise dedicated clusters allow per-tenant cost isolation.
+  - name: Optimization
+    description: Cache idempotent reads at the application or CDN tier, prefer batched JSON-RPC where
+      supported, choose a tier whose included credit allowance matches steady-state consumption to avoid
+      the overage rate, and configure method-level rate limits on Accelerate and above to cap expensive
+      methods.
+  - name: Accountability
+    description: Track subscription tier and overage charges separately; the platform bills overages
+      that exceed $200 in-month immediately on Build and above, so set spend alerts proactively. Enterprise
+      tenants negotiate dedicated cluster commitments and SOC2 attestation as part of the contract.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
