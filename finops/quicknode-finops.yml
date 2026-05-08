@@ -1,107 +1,66 @@
 specification: FinOps Framework
 specificationVersion: '1.0'
 schema: https://www.finops.org/framework/
+provider: QuickNode
+providerId: quicknode
+created: '2026-05-08'
+modified: '2026-05-08'
+reconciled: false
+tags:
+- Web3
+- Blockchain
+- RPC
+- Multi-Chain
+- NFT
+- FinOps
+- Cost Management
+- FOCUS
+description: FOCUS-aligned FinOps placeholder for QuickNode. Pipeline will replace with real billing details.
+notes: Initial scaffold — billing model has not yet been reconciled.
+sources:
+- https://www.quicknode.com/
+- https://focus.finops.org/focus-specification/v1-3/
 alignedWith:
   framework: FinOps Foundation Framework
   frameworkUrl: https://www.finops.org/framework/
   dataSpec: FOCUS
   dataSpecVersion: '1.3'
   dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
-provider: QuickNode
-providerId: quicknode
-publisherName: QuickNode Labs, Inc.
-serviceCategory: Blockchain Infrastructure
-created: '2026-05-04'
-modified: '2026-05-05'
-reconciled: true
-tags:
-  - Blockchain
-  - Web3
-  - RPC
-  - FinOps
-  - FOCUS
-description: FOCUS-aligned FinOps for QuickNode - flat monthly subscription per tier plus a per-million-credit
-  overage charge driven by method-weighted RPC consumption.
-sources:
-  - https://www.quicknode.com/pricing
-  - https://www.quicknode.com/docs/welcome
+publisherName: QuickNode
+serviceCategory: Web3
 billingModel:
-  pricingCategory: Subscription + Pay-As-You-Go Overage
+  pricingCategory: To Be Reconciled
   billingFrequency: Monthly
   billingCurrency: USD
   chargeCategories:
-    - Purchase
-    - Usage
-    - Tax
-    - Adjustment
-    - Credit
+  - Usage
+  - Purchase
+  - Adjustment
 focusColumns:
   ServiceName: QuickNode
-  ServiceCategory: Blockchain Infrastructure
+  ServiceCategory: Web3
   ProviderName: QuickNode
-  PublisherName: QuickNode Labs, Inc.
-  InvoiceIssuerName: QuickNode Labs, Inc.
+  PublisherName: QuickNode
+  InvoiceIssuerName: QuickNode
   BillingCurrency: USD
   ChargeCategory: Usage
 meters:
-  - name: subscription_fee
-    description: Recurring monthly or annual plan fee for the active QuickNode tier (Build, Accelerate,
-      Scale, Business, or Enterprise).
-    unit: month
-    aggregation: sum
-    dimensions:
-      - plan_tier
-      - billing_cycle
-  - name: api_credits
-    description: Method-weighted credits consumed by RPC, REST, and gRPC requests against the QuickNode
-      endpoint.
-    unit: credit
-    aggregation: sum
-    dimensions:
-      - endpoint_id
-      - chain
-      - method
-      - plan_tier
-  - name: credit_overage
-    description: Credits consumed beyond the included monthly credit allowance for the active plan;
-      billed per million credits at the plan-specific overage rate.
-    unit: credit
-    aggregation: sum
-    dimensions:
-      - endpoint_id
-      - chain
-      - plan_tier
-  - name: endpoints
-    description: Active dedicated endpoints provisioned on the account; each plan caps the number permitted.
-    unit: endpoint
-    aggregation: max
-    dimensions:
-      - chain
-      - region
-  - name: addon_usage
-    description: Marketplace add-on consumption (e.g. Streams, Webhooks, IPFS pinning, Key-Value Store
-      operations) billed by the add-on's own meter.
-    unit: varies
-    aggregation: sum
-    dimensions:
-      - addon_name
-      - endpoint_id
+- name: api_usage
+  description: Catch-all meter pending reconciliation.
+  unit: varies
+  aggregation: sum
+  dimensions:
+  - account
+  - resource
 principles:
-  - name: Visibility
-    description: Use the QuickNode dashboard to observe credit consumption per endpoint and per method;
-      method-level breakdowns highlight which RPC calls (trace_, debug_, archive) dominate spend.
-  - name: Allocation
-    description: Provision separate endpoints per consuming team, environment, or chain so credit usage
-      and overage charges can be attributed; enterprise dedicated clusters allow per-tenant cost isolation.
-  - name: Optimization
-    description: Cache idempotent reads at the application or CDN tier, prefer batched JSON-RPC where
-      supported, choose a tier whose included credit allowance matches steady-state consumption to avoid
-      the overage rate, and configure method-level rate limits on Accelerate and above to cap expensive
-      methods.
-  - name: Accountability
-    description: Track subscription tier and overage charges separately; the platform bills overages
-      that exceed $200 in-month immediately on Build and above, so set spend alerts proactively. Enterprise
-      tenants negotiate dedicated cluster commitments and SOC2 attestation as part of the contract.
+- name: Visibility
+  description: Pull provider invoices or usage exports until a self-serve usage feed is documented.
+- name: Allocation
+  description: Tag invoice line items to consuming business units in your FinOps store.
+- name: Optimization
+  description: Levers depend on the provider's billing model; review at renewal once reconciled.
+- name: Accountability
+  description: Assign a contract owner to review billing against negotiated terms.
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com

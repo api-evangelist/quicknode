@@ -3,82 +3,33 @@ specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
 provider: QuickNode
 providerId: quicknode
-created: '2026-05-04'
-modified: '2026-05-05'
-reconciled: true
+created: '2026-05-08'
+modified: '2026-05-08'
+reconciled: false
 tags:
-  - Blockchain
-  - Web3
-  - RPC
-  - Rate Limiting
-  - Throttling
-description: QuickNode applies a per-second request cap and a monthly credit budget per endpoint. Each
-  RPC method consumes a number of credits weighted by its computational cost; exceeding the requests-per-second
-  ceiling returns 429 Too Many Requests, while exhausting the credit budget pushes the account onto the
-  per-million-credit overage rate. Method-level rate limiting is available on Accelerate and above.
+- Web3
+- Blockchain
+- RPC
+- Multi-Chain
+- NFT
+- Rate Limiting
+- Quotas
+- Throttling
+description: Placeholder rate-limit artifact for QuickNode. Replace with real limits once researched.
+notes: Initial scaffold — limits have not yet been reconciled.
 sources:
-  - https://www.quicknode.com/pricing
-  - https://www.quicknode.com/docs/welcome
+- https://www.quicknode.com/
 responseCodes:
   throttled: 429
-  serviceUnavailable: 503
 limits:
-  - name: Free Trial - Requests Per Second
-    scope: endpoint
-    metric: requests_per_second
-    limit: 15
-    timeFrame: second
-    notes: Free trial tier; 10M credits per month.
-  - name: Build - Requests Per Second
-    scope: endpoint
-    metric: requests_per_second
-    limit: 50
-    timeFrame: second
-    notes: Build tier; 80M credits per month, $0.62 per 1M credits over allowance.
-  - name: Accelerate - Requests Per Second
-    scope: endpoint
-    metric: requests_per_second
-    limit: 125
-    timeFrame: second
-    notes: Accelerate tier; 450M credits per month, $0.55 per 1M credits over allowance, method-level
-      rate limiting available.
-  - name: Scale - Requests Per Second
-    scope: endpoint
-    metric: requests_per_second
-    limit: 250
-    timeFrame: second
-    notes: Scale tier; 950M credits per month, $0.53 per 1M credits over allowance.
-  - name: Business - Requests Per Second
-    scope: endpoint
-    metric: requests_per_second
-    limit: 500
-    timeFrame: second
-    notes: Business tier; 2B credits per month, $0.50 per 1M credits over allowance.
-  - name: Enterprise - Requests Per Second
-    scope: endpoint
-    metric: requests_per_second
-    limit: custom
-    notes: Enterprise tier; negotiated RPS and credit allowance, dedicated clusters available.
-  - name: Per-Method Credit Cost
-    scope: endpoint
-    metric: credit
-    limit: varies
-    notes: Each RPC method consumes a credit weight reflecting computational cost; trace_, debug_, and
-      archive methods cost more than simple eth_blockNumber lookups.
+- name: Default
+  scope: account
+  metric: varies
+  limit: see provider documentation
+  notes: Pending reconciliation.
 policies:
-  - name: 429 Throttling
-    description: When the per-second request ceiling is exceeded the API returns 429 Too Many Requests;
-      clients should back off and retry.
-  - name: Credit Overage
-    description: Once the monthly credit budget is exhausted requests continue to succeed and are billed
-      at the per-million-credit overage rate for the active plan. Overages exceeding $200 in a billing
-      period are charged immediately on Build and above; smaller overages settle at cycle end.
-  - name: Method-Level Rate Limiting
-    description: Accelerate, Scale, Business, and Enterprise plans expose method-level rate-limit configuration
-      so consumers can cap individual RPC methods independently of the endpoint-wide RPS.
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter on 429 responses and cache
-      responses where possible to reduce credit consumption.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor any Retry-After header.
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
