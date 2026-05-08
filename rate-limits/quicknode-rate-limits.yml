@@ -5,31 +5,55 @@ provider: QuickNode
 providerId: quicknode
 created: '2026-05-08'
 modified: '2026-05-08'
-reconciled: false
+reconciled: true
 tags:
 - Web3
 - Blockchain
 - RPC
-- Multi-Chain
-- NFT
+- Streams
+- IPFS
+- Multi-chain
 - Rate Limiting
-- Quotas
-- Throttling
-description: Placeholder rate-limit artifact for QuickNode. Replace with real limits once researched.
-notes: Initial scaffold — limits have not yet been reconciled.
+description: QuickNode enforces per-endpoint requests-per-second rate limits scaled
+  by plan tier and a monthly request credits cap.
+notes: Method credits vary; archive and trace cost more. Streams and Webhooks have
+  separate quotas.
 sources:
-- https://www.quicknode.com/
+- https://www.quicknode.com/pricing
+- https://www.quicknode.com/docs/general-reference/rate-limits
 responseCodes:
   throttled: 429
 limits:
-- name: Default
+- name: Free Throughput
+  scope: endpoint
+  metric: requests_per_second
+  limit: 15
+  notes: Free plan rate cap.
+- name: Build Throughput
+  scope: endpoint
+  metric: requests_per_second
+  limit: 50
+  notes: Build plan.
+- name: Scale Throughput
+  scope: endpoint
+  metric: requests_per_second
+  limit: 200
+  notes: Scale plan.
+- name: Business Throughput
+  scope: endpoint
+  metric: requests_per_second
+  limit: 800
+  notes: Business plan.
+- name: Monthly Requests
   scope: account
-  metric: varies
-  limit: see provider documentation
-  notes: Pending reconciliation.
+  metric: requests
+  limit: see plan
+  notes: Monthly request credits.
 policies:
 - name: Backoff Strategy
-  description: Clients should implement exponential backoff with jitter and honor any Retry-After header.
+  description: Exponential backoff on 429; honor Retry-After.
+- name: Endpoint Sharding
+  description: Spread load across endpoints to lift effective throughput.
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

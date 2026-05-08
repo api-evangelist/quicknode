@@ -5,20 +5,21 @@ provider: QuickNode
 providerId: quicknode
 created: '2026-05-08'
 modified: '2026-05-08'
-reconciled: false
+reconciled: true
 tags:
 - Web3
 - Blockchain
 - RPC
-- Multi-Chain
-- NFT
+- Streams
+- IPFS
+- Multi-chain
 - FinOps
-- Cost Management
 - FOCUS
-description: FOCUS-aligned FinOps placeholder for QuickNode. Pipeline will replace with real billing details.
-notes: Initial scaffold — billing model has not yet been reconciled.
+description: QuickNode bills as monthly subscription with included request credits;
+  Marketplace add-ons are metered separately.
+notes: Usage visible in QuickNode dashboard; invoices via QuickNode.
 sources:
-- https://www.quicknode.com/
+- https://www.quicknode.com/pricing
 - https://focus.finops.org/focus-specification/v1-3/
 alignedWith:
   framework: FinOps Foundation Framework
@@ -26,16 +27,15 @@ alignedWith:
   dataSpec: FOCUS
   dataSpecVersion: '1.3'
   dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
-publisherName: QuickNode
+publisherName: QuickNode, Inc.
 serviceCategory: Web3
 billingModel:
-  pricingCategory: To Be Reconciled
+  pricingCategory: Subscription + Usage
   billingFrequency: Monthly
   billingCurrency: USD
   chargeCategories:
   - Usage
   - Purchase
-  - Adjustment
 focusColumns:
   ServiceName: QuickNode
   ServiceCategory: Web3
@@ -45,22 +45,43 @@ focusColumns:
   BillingCurrency: USD
   ChargeCategory: Usage
 meters:
-- name: api_usage
-  description: Catch-all meter pending reconciliation.
-  unit: varies
+- name: rpc_requests
+  description: Core RPC requests, weighted per method.
+  unit: request
   aggregation: sum
   dimensions:
+  - endpoint
+  - chain
+  - method
+- name: stream_events
+  description: Streams events delivered.
+  unit: event
+  aggregation: sum
+  dimensions:
+  - stream
+  - chain
+- name: ipfs_storage
+  description: IPFS pinned bytes.
+  unit: byte
+  aggregation: max
+  dimensions:
   - account
-  - resource
+- name: addon_calls
+  description: Marketplace add-on calls.
+  unit: request
+  aggregation: sum
+  dimensions:
+  - addon
 principles:
 - name: Visibility
-  description: Pull provider invoices or usage exports until a self-serve usage feed is documented.
+  description: Monitor endpoint usage in the QuickNode dashboard; review per-add-on
+    billing line items.
 - name: Allocation
-  description: Tag invoice line items to consuming business units in your FinOps store.
+  description: Tag endpoints by app/team/env.
 - name: Optimization
-  description: Levers depend on the provider's billing model; review at renewal once reconciled.
+  description: Disable unused add-ons; batch requests; prefer Streams over polling.
 - name: Accountability
-  description: Assign a contract owner to review billing against negotiated terms.
+  description: Endpoint owners review monthly usage vs allotment.
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
