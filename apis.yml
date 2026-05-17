@@ -1,7 +1,7 @@
 aid: quicknode
 url: https://raw.githubusercontent.com/api-evangelist/quicknode/refs/heads/main/apis.yml
 name: QuickNode
-x-type: company
+kind: company
 description: QuickNode is a multi-chain Web3 infrastructure provider supporting 77+
   blockchains via JSON-RPC, REST, and gRPC. Core products include high-performance
   RPC nodes, Streams (real-time event streaming), Webhooks, IPFS, a Key-Value Store,
