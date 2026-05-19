@@ -1,0 +1,107 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: QuickNode IPFS REST API — Gateway
+  description: 'QuickNode IPFS REST API — Gateway. 2 operations. Lead operation: List gateways. Self-contained Naftiko capability
+    covering one Quicknode business surface.'
+  tags:
+  - Quicknode
+  - Gateway
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QUICKNODE_API_KEY: QUICKNODE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: ipfs-gateway
+    baseUri: https://api.quicknode.com/ipfs/rest
+    description: QuickNode IPFS REST API — Gateway business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-gateways
+      path: /v1/gateways
+      operations:
+      - name: listgateways
+        method: GET
+        description: List gateways
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: creategateway
+        method: POST
+        description: Create gateway
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: x-api-key
+      value: '{{env.QUICKNODE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: ipfs-gateway-rest
+    port: 8080
+    description: REST adapter for QuickNode IPFS REST API — Gateway. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/v1/gateways
+      name: v1-gateways
+      description: REST surface for v1-gateways.
+      operations:
+      - method: GET
+        name: listgateways
+        description: List gateways
+        call: ipfs-gateway.listgateways
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: creategateway
+        description: Create gateway
+        call: ipfs-gateway.creategateway
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: ipfs-gateway-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for QuickNode IPFS REST API — Gateway. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-gateways
+      description: List gateways
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: ipfs-gateway.listgateways
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-gateway
+      description: Create gateway
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: ipfs-gateway.creategateway
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

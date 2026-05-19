@@ -1,0 +1,88 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: QuickNode Key-Value Store REST API — Batch
+  description: 'QuickNode Key-Value Store REST API — Batch. 1 operations. Lead operation: Bulk write keys. Self-contained
+    Naftiko capability covering one Quicknode business surface.'
+  tags:
+  - Quicknode
+  - Batch
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QUICKNODE_API_KEY: QUICKNODE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: key-value-store-batch
+    baseUri: https://api.quicknode.com/kv/rest/v1
+    description: QuickNode Key-Value Store REST API — Batch business capability. Self-contained, no shared references.
+    resources:
+    - name: databases-database-batch
+      path: /databases/{database}/batch
+      operations:
+      - name: batchwrite
+        method: POST
+        description: Bulk write keys
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: database
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: x-api-key
+      value: '{{env.QUICKNODE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: key-value-store-batch-rest
+    port: 8080
+    description: REST adapter for QuickNode Key-Value Store REST API — Batch. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/databases/{database}/batch
+      name: databases-database-batch
+      description: REST surface for databases-database-batch.
+      operations:
+      - method: POST
+        name: batchwrite
+        description: Bulk write keys
+        call: key-value-store-batch.batchwrite
+        with:
+          database: rest.database
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: key-value-store-batch-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for QuickNode Key-Value Store REST API — Batch. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: bulk-write-keys
+      description: Bulk write keys
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: key-value-store-batch.batchwrite
+      with:
+        database: tools.database
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

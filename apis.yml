@@ -111,6 +111,8 @@ apis:
   - type: Documentation
     url: https://www.quicknode.com/docs/functions
 common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/quicknode
 - type: Website
   url: https://www.quicknode.com/
 - type: Plans
