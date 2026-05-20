@@ -8,119 +8,121 @@ description: QuickNode is a multi-chain Web3 infrastructure provider supporting 
   and a Marketplace of add-ons.
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-- Web3
-- Blockchain
-- RPC
-- Streams
-- IPFS
-- Multi-chain
+  - Web3
+  - Blockchain
+  - RPC
+  - Streams
+  - IPFS
+  - Multi-chain
 created: '2026-05-08'
 modified: '2026-05-08'
 specificationVersion: '0.19'
 apis:
-- aid: quicknode:core-rpc
-  name: QuickNode Core RPC API
-  description: Multi-chain JSON-RPC, REST, and gRPC endpoints across 77+ blockchains
-    (Ethereum, Solana, Polygon, Arbitrum, Optimism, Base, Bitcoin, Aptos, Avalanche,
-    BNB, etc.).
-  humanURL: https://www.quicknode.com/docs
-  baseURL: https://{endpoint-name}.{network}.quiknode.pro/{token}
-  tags:
-  - JSON-RPC
-  - WebSocket
-  - gRPC
-  - Multi-chain
-  properties:
-  - type: Documentation
-    url: https://www.quicknode.com/docs
-- aid: quicknode:streams
-  name: QuickNode Streams
-  description: Real-time blockchain data streaming with custom filters and webhook
-    delivery.
-  humanURL: https://www.quicknode.com/docs/streams/getting-started
-  baseURL: https://api.quicknode.com/streams/rest/v1
-  tags:
-  - REST
-  - Streaming
-  properties:
-  - type: Documentation
-    url: https://www.quicknode.com/docs/streams/getting-started
-  - type: OpenAPI
-    url: openapi/quicknode-streams-openapi.yml
-- aid: quicknode:webhooks
-  name: QuickNode Webhooks
-  description: Event-driven webhook subscriptions with custom filtering for blockchain
-    events.
-  humanURL: https://www.quicknode.com/docs/quicknode-webhooks
-  baseURL: https://api.quicknode.com/webhooks/rest/v1
-  tags:
-  - REST
-  - Webhooks
-  properties:
-  - type: Documentation
-    url: https://www.quicknode.com/docs/quicknode-webhooks
-- aid: quicknode:ipfs
-  name: QuickNode IPFS API
-  description: REST API for uploading, pinning, and retrieving content on IPFS.
-  humanURL: https://www.quicknode.com/docs/ipfs/getting-started
-  baseURL: https://api.quicknode.com/ipfs/rest/v1
-  tags:
-  - REST
-  - IPFS
-  properties:
-  - type: Documentation
-    url: https://www.quicknode.com/docs/ipfs/getting-started
-  - type: OpenAPI
-    url: openapi/quicknode-ipfs-openapi.yml
-- aid: quicknode:kv-store
-  name: QuickNode Key-Value Store
-  description: REST API for large-scale dataset storage and retrieval keyed by string
-    identifiers.
-  humanURL: https://www.quicknode.com/docs/key-value-store
-  baseURL: https://api.quicknode.com/kv/rest/v1
-  tags:
-  - REST
-  - Storage
-  properties:
-  - type: Documentation
-    url: https://www.quicknode.com/docs/key-value-store
-  - type: OpenAPI
-    url: openapi/quicknode-key-value-store-openapi.yml
-- aid: quicknode:marketplace
-  name: QuickNode Marketplace Add-ons
-  description: Catalog of opt-in add-on APIs (NFT API, Token API, DeFi API, Functions,
-    etc.) attached to a QuickNode endpoint.
-  humanURL: https://marketplace.quicknode.com/
-  baseURL: https://{endpoint}.quiknode.pro/{token}
-  tags:
-  - Marketplace
-  - Add-ons
-  properties:
-  - type: Documentation
-    url: https://marketplace.quicknode.com/
-- aid: quicknode:functions
-  name: QuickNode Functions
-  description: Serverless on-chain logic runtime for executing custom code triggered
-    by Streams or HTTP.
-  humanURL: https://www.quicknode.com/docs/functions
-  baseURL: https://api.quicknode.com/functions/rest/v1
-  tags:
-  - REST
-  - Serverless
-  properties:
-  - type: Documentation
-    url: https://www.quicknode.com/docs/functions
+  - aid: quicknode:core-rpc
+    name: QuickNode Core RPC API
+    description: Multi-chain JSON-RPC, REST, and gRPC endpoints across 77+ blockchains
+      (Ethereum, Solana, Polygon, Arbitrum, Optimism, Base, Bitcoin, Aptos, Avalanche,
+      BNB, etc.).
+    humanURL: https://www.quicknode.com/docs
+    baseURL: https://{endpoint-name}.{network}.quiknode.pro/{token}
+    tags:
+    - JSON-RPC
+    - WebSocket
+    - gRPC
+    - Multi-chain
+    properties:
+    - type: Documentation
+      url: https://www.quicknode.com/docs
+  - aid: quicknode:streams
+    name: QuickNode Streams
+    description: Real-time blockchain data streaming with custom filters and webhook
+      delivery.
+    humanURL: https://www.quicknode.com/docs/streams/getting-started
+    baseURL: https://api.quicknode.com/streams/rest/v1
+    tags:
+    - REST
+    - Streaming
+    properties:
+    - type: Documentation
+      url: https://www.quicknode.com/docs/streams/getting-started
+    - type: OpenAPI
+      url: openapi/quicknode-streams-openapi.yml
+  - aid: quicknode:webhooks
+    name: QuickNode Webhooks
+    description: Event-driven webhook subscriptions with custom filtering for blockchain
+      events.
+    humanURL: https://www.quicknode.com/docs/quicknode-webhooks
+    baseURL: https://api.quicknode.com/webhooks/rest/v1
+    tags:
+    - REST
+    - Webhooks
+    properties:
+    - type: Documentation
+      url: https://www.quicknode.com/docs/quicknode-webhooks
+  - aid: quicknode:ipfs
+    name: QuickNode IPFS API
+    description: REST API for uploading, pinning, and retrieving content on IPFS.
+    humanURL: https://www.quicknode.com/docs/ipfs/getting-started
+    baseURL: https://api.quicknode.com/ipfs/rest/v1
+    tags:
+    - REST
+    - IPFS
+    properties:
+    - type: Documentation
+      url: https://www.quicknode.com/docs/ipfs/getting-started
+    - type: OpenAPI
+      url: openapi/quicknode-ipfs-openapi.yml
+  - aid: quicknode:kv-store
+    name: QuickNode Key-Value Store
+    description: REST API for large-scale dataset storage and retrieval keyed by string
+      identifiers.
+    humanURL: https://www.quicknode.com/docs/key-value-store
+    baseURL: https://api.quicknode.com/kv/rest/v1
+    tags:
+    - REST
+    - Storage
+    properties:
+    - type: Documentation
+      url: https://www.quicknode.com/docs/key-value-store
+    - type: OpenAPI
+      url: openapi/quicknode-key-value-store-openapi.yml
+  - aid: quicknode:marketplace
+    name: QuickNode Marketplace Add-ons
+    description: Catalog of opt-in add-on APIs (NFT API, Token API, DeFi API, Functions,
+      etc.) attached to a QuickNode endpoint.
+    humanURL: https://marketplace.quicknode.com/
+    baseURL: https://{endpoint}.quiknode.pro/{token}
+    tags:
+    - Marketplace
+    - Add-ons
+    properties:
+    - type: Documentation
+      url: https://marketplace.quicknode.com/
+  - aid: quicknode:functions
+    name: QuickNode Functions
+    description: Serverless on-chain logic runtime for executing custom code triggered
+      by Streams or HTTP.
+    humanURL: https://www.quicknode.com/docs/functions
+    baseURL: https://api.quicknode.com/functions/rest/v1
+    tags:
+    - REST
+    - Serverless
+    properties:
+    - type: Documentation
+      url: https://www.quicknode.com/docs/functions
 common:
+  - type: GitHubOrganization
+    url: https://github.com/quiknode-labs
   - type: LinkedIn
     url: https://www.linkedin.com/company/quicknode
-- type: Website
-  url: https://www.quicknode.com/
-- type: Plans
-  url: plans/quicknode-plans-pricing.yml
-- type: RateLimits
-  url: rate-limits/quicknode-rate-limits.yml
-- type: FinOps
-  url: finops/quicknode-finops.yml
+  - type: Website
+    url: https://www.quicknode.com/
+  - type: Plans
+    url: plans/quicknode-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/quicknode-rate-limits.yml
+  - type: FinOps
+    url: finops/quicknode-finops.yml
 maintainers:
-- FN: Kin Lane
-  email: kin@apievangelist.com
+  - FN: Kin Lane
+    email: kin@apievangelist.com
