@@ -1,0 +1,11 @@
+name: QuickNode Domain Vocabulary
+provider: QuickNode
+providerId: quicknode
+description: Tag-derived vocabulary for the QuickNode API surface; sourced from openapi/ tags.
+terms:
+- term: Database
+  description: Manage key-value namespaces (databases).
+- term: Keys
+  description: Read, write, and delete keys within a database.
+- term: Batch
+  description: Bulk-load operations against a database.

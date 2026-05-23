@@ -1,0 +1,74 @@
+{
+  "provider": "QuickNode",
+  "providerId": "quicknode",
+  "kind": "json-structure",
+  "description": "Structural overview of the QuickNode API surface; extracted from openapi/.",
+  "schemaCount": 0,
+  "operationCount": 7,
+  "schemas": [],
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/databases",
+      "operationId": "listDatabases",
+      "summary": "List databases",
+      "tags": [
+        "Database"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/databases",
+      "operationId": "createDatabase",
+      "summary": "Create a database",
+      "tags": [
+        "Database"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/databases/{database}",
+      "operationId": "deleteDatabase",
+      "summary": "Delete a database",
+      "tags": [
+        "Database"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/databases/{database}/keys/{key}",
+      "operationId": "getKey",
+      "summary": "Get a value by key",
+      "tags": [
+        "Keys"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/databases/{database}/keys/{key}",
+      "operationId": "setKey",
+      "summary": "Set a value for a key",
+      "tags": [
+        "Keys"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/databases/{database}/keys/{key}",
+      "operationId": "deleteKey",
+      "summary": "Delete a key",
+      "tags": [
+        "Keys"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/databases/{database}/batch",
+      "operationId": "batchWrite",
+      "summary": "Bulk write keys",
+      "tags": [
+        "Batch"
+      ]
+    }
+  ]
+}
