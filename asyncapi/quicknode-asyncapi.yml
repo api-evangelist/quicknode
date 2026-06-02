@@ -1,0 +1,1228 @@
+asyncapi: '2.6.0'
+info:
+  title: QuickNode WebSocket Subscription API
+  version: '1.0.0'
+  description: |
+    AsyncAPI definition for QuickNode WebSocket subscription endpoints across
+    Ethereum (and EVM-compatible chains) and Solana. All subscriptions use the
+    JSON-RPC 2.0 envelope. After a successful subscription request the server
+    responds with a subscription id; the server then pushes notifications via
+    the corresponding `*Notification` method until the client unsubscribes.
+
+    Sources:
+      - https://www.quicknode.com/docs/ethereum/eth_subscribe
+      - https://www.quicknode.com/docs/solana/accountSubscribe
+      - https://www.quicknode.com/docs/solana/blockSubscribe
+      - https://www.quicknode.com/docs/solana/logsSubscribe
+      - https://www.quicknode.com/docs/solana/programSubscribe
+      - https://www.quicknode.com/docs/solana/signatureSubscribe
+      - https://www.quicknode.com/docs/solana/slotSubscribe
+      - https://www.quicknode.com/docs/solana/slotsUpdatesSubscribe
+      - https://www.quicknode.com/docs/solana/voteSubscribe
+      - https://www.quicknode.com/docs/solana/rootSubscribe
+  contact:
+    name: QuickNode
+    url: https://www.quicknode.com/
+  license:
+    name: Proprietary
+    url: https://www.quicknode.com/terms
+
+defaultContentType: application/json
+
+servers:
+  ethereum:
+    url: wss://{endpointName}.quiknode.pro/{token}/
+    protocol: wss
+    description: QuickNode Ethereum (and EVM-compatible) WebSocket endpoint
+    variables:
+      endpointName:
+        description: Customer-specific QuickNode endpoint slug
+        default: your-endpoint
+      token:
+        description: Authentication token issued by QuickNode for the endpoint
+        default: your-token
+  solana:
+    url: wss://{endpointName}.solana-mainnet.quiknode.pro/{token}/
+    protocol: wss
+    description: QuickNode Solana WebSocket endpoint
+    variables:
+      endpointName:
+        description: Customer-specific QuickNode endpoint slug
+        default: your-endpoint
+      token:
+        description: Authentication token issued by QuickNode for the endpoint
+        default: your-token
+
+channels:
+  ###############################
+  # Ethereum / EVM subscriptions
+  ###############################
+  ethereum/newHeads:
+    description: |
+      Subscribe to new block headers on Ethereum (or any EVM chain) via
+      `eth_subscribe` with the `newHeads` subscription type. The server returns
+      a hex-encoded subscription id and then streams a notification for every
+      new block header. Cancel with `eth_unsubscribe`.
+    servers:
+      - ethereum
+    publish:
+      operationId: subscribeEthNewHeads
+      summary: Send eth_subscribe / eth_unsubscribe for newHeads
+      message:
+        oneOf:
+          - $ref: '#/components/messages/EthSubscribeNewHeadsRequest'
+          - $ref: '#/components/messages/EthUnsubscribeRequest'
+    subscribe:
+      operationId: receiveEthNewHeads
+      summary: Receive subscription id and newHeads notifications
+      message:
+        oneOf:
+          - $ref: '#/components/messages/EthSubscribeResponse'
+          - $ref: '#/components/messages/EthUnsubscribeResponse'
+          - $ref: '#/components/messages/EthNewHeadsNotification'
+
+  ethereum/logs:
+    description: |
+      Subscribe to event logs matching filter criteria (addresses, topics) via
+      `eth_subscribe` with the `logs` subscription type.
+    servers:
+      - ethereum
+    publish:
+      operationId: subscribeEthLogs
+      summary: Send eth_subscribe / eth_unsubscribe for logs
+      message:
+        oneOf:
+          - $ref: '#/components/messages/EthSubscribeLogsRequest'
+          - $ref: '#/components/messages/EthUnsubscribeRequest'
+    subscribe:
+      operationId: receiveEthLogs
+      summary: Receive subscription id and log notifications
+      message:
+        oneOf:
+          - $ref: '#/components/messages/EthSubscribeResponse'
+          - $ref: '#/components/messages/EthUnsubscribeResponse'
+          - $ref: '#/components/messages/EthLogsNotification'
+
+  ethereum/newPendingTransactions:
+    description: |
+      Subscribe to pending transactions entering the mempool via
+      `eth_subscribe` with the `newPendingTransactions` subscription type. With
+      the optional boolean flag set to true, full transaction objects are
+      returned instead of hashes.
+    servers:
+      - ethereum
+    publish:
+      operationId: subscribeEthNewPendingTransactions
+      summary: Send eth_subscribe / eth_unsubscribe for newPendingTransactions
+      message:
+        oneOf:
+          - $ref: '#/components/messages/EthSubscribeNewPendingTransactionsRequest'
+          - $ref: '#/components/messages/EthUnsubscribeRequest'
+    subscribe:
+      operationId: receiveEthNewPendingTransactions
+      summary: Receive subscription id and pending transaction notifications
+      message:
+        oneOf:
+          - $ref: '#/components/messages/EthSubscribeResponse'
+          - $ref: '#/components/messages/EthUnsubscribeResponse'
+          - $ref: '#/components/messages/EthNewPendingTransactionsNotification'
+
+  ethereum/syncing:
+    description: |
+      Subscribe to node sync state changes via `eth_subscribe` with the
+      `syncing` subscription type. Notifications are emitted when the node
+      starts or stops syncing and with periodic progress reports.
+    servers:
+      - ethereum
+    publish:
+      operationId: subscribeEthSyncing
+      summary: Send eth_subscribe / eth_unsubscribe for syncing
+      message:
+        oneOf:
+          - $ref: '#/components/messages/EthSubscribeSyncingRequest'
+          - $ref: '#/components/messages/EthUnsubscribeRequest'
+    subscribe:
+      operationId: receiveEthSyncing
+      summary: Receive subscription id and syncing notifications
+      message:
+        oneOf:
+          - $ref: '#/components/messages/EthSubscribeResponse'
+          - $ref: '#/components/messages/EthUnsubscribeResponse'
+          - $ref: '#/components/messages/EthSyncingNotification'
+
+  ###############################
+  # Solana subscriptions
+  ###############################
+  solana/accountSubscribe:
+    description: |
+      Subscribe to changes (lamports or data) on a specific Solana account
+      identified by a base-58 encoded Pubkey. Notifications use the same
+      shape as the `getAccountInfo` RPC response. Cancel with
+      `accountUnsubscribe`.
+    servers:
+      - solana
+    publish:
+      operationId: subscribeSolanaAccount
+      summary: Send accountSubscribe / accountUnsubscribe
+      message:
+        oneOf:
+          - $ref: '#/components/messages/SolAccountSubscribeRequest'
+          - $ref: '#/components/messages/SolAccountUnsubscribeRequest'
+    subscribe:
+      operationId: receiveSolanaAccount
+      summary: Receive subscription id and account notifications
+      message:
+        oneOf:
+          - $ref: '#/components/messages/SolSubscribeResponse'
+          - $ref: '#/components/messages/SolUnsubscribeResponse'
+          - $ref: '#/components/messages/SolAccountNotification'
+
+  solana/blockSubscribe:
+    description: |
+      Subscribe to new confirmed or finalized blocks. The notification block
+      payload mirrors the structure returned by `getBlock`. Cancel with
+      `blockUnsubscribe`.
+    servers:
+      - solana
+    publish:
+      operationId: subscribeSolanaBlock
+      summary: Send blockSubscribe / blockUnsubscribe
+      message:
+        oneOf:
+          - $ref: '#/components/messages/SolBlockSubscribeRequest'
+          - $ref: '#/components/messages/SolBlockUnsubscribeRequest'
+    subscribe:
+      operationId: receiveSolanaBlock
+      summary: Receive subscription id and block notifications
+      message:
+        oneOf:
+          - $ref: '#/components/messages/SolSubscribeResponse'
+          - $ref: '#/components/messages/SolUnsubscribeResponse'
+          - $ref: '#/components/messages/SolBlockNotification'
+
+  solana/logsSubscribe:
+    description: |
+      Subscribe to transaction logs filtered by `all`, `allWithVotes`, or an
+      object filter (e.g. mentioning a particular account). Cancel with
+      `logsUnsubscribe`.
+    servers:
+      - solana
+    publish:
+      operationId: subscribeSolanaLogs
+      summary: Send logsSubscribe / logsUnsubscribe
+      message:
+        oneOf:
+          - $ref: '#/components/messages/SolLogsSubscribeRequest'
+          - $ref: '#/components/messages/SolLogsUnsubscribeRequest'
+    subscribe:
+      operationId: receiveSolanaLogs
+      summary: Receive subscription id and log notifications
+      message:
+        oneOf:
+          - $ref: '#/components/messages/SolSubscribeResponse'
+          - $ref: '#/components/messages/SolUnsubscribeResponse'
+          - $ref: '#/components/messages/SolLogsNotification'
+
+  solana/programSubscribe:
+    description: |
+      Subscribe to changes for any account owned by a specific program. The
+      notification payload mirrors `getProgramAccounts`. Cancel with
+      `programUnsubscribe`.
+    servers:
+      - solana
+    publish:
+      operationId: subscribeSolanaProgram
+      summary: Send programSubscribe / programUnsubscribe
+      message:
+        oneOf:
+          - $ref: '#/components/messages/SolProgramSubscribeRequest'
+          - $ref: '#/components/messages/SolProgramUnsubscribeRequest'
+    subscribe:
+      operationId: receiveSolanaProgram
+      summary: Receive subscription id and program-account notifications
+      message:
+        oneOf:
+          - $ref: '#/components/messages/SolSubscribeResponse'
+          - $ref: '#/components/messages/SolUnsubscribeResponse'
+          - $ref: '#/components/messages/SolProgramNotification'
+
+  solana/signatureSubscribe:
+    description: |
+      Subscribe to confirmation of a specific transaction signature. The
+      subscription is automatically cancelled after the notification is
+      delivered.
+    servers:
+      - solana
+    publish:
+      operationId: subscribeSolanaSignature
+      summary: Send signatureSubscribe / signatureUnsubscribe
+      message:
+        oneOf:
+          - $ref: '#/components/messages/SolSignatureSubscribeRequest'
+          - $ref: '#/components/messages/SolSignatureUnsubscribeRequest'
+    subscribe:
+      operationId: receiveSolanaSignature
+      summary: Receive subscription id and signature notification
+      message:
+        oneOf:
+          - $ref: '#/components/messages/SolSubscribeResponse'
+          - $ref: '#/components/messages/SolUnsubscribeResponse'
+          - $ref: '#/components/messages/SolSignatureNotification'
+
+  solana/slotSubscribe:
+    description: |
+      Subscribe to slot processing notifications. Cancel with `slotUnsubscribe`.
+    servers:
+      - solana
+    publish:
+      operationId: subscribeSolanaSlot
+      summary: Send slotSubscribe / slotUnsubscribe
+      message:
+        oneOf:
+          - $ref: '#/components/messages/SolSlotSubscribeRequest'
+          - $ref: '#/components/messages/SolSlotUnsubscribeRequest'
+    subscribe:
+      operationId: receiveSolanaSlot
+      summary: Receive subscription id and slot notifications
+      message:
+        oneOf:
+          - $ref: '#/components/messages/SolSubscribeResponse'
+          - $ref: '#/components/messages/SolUnsubscribeResponse'
+          - $ref: '#/components/messages/SolSlotNotification'
+
+  solana/slotsUpdatesSubscribe:
+    description: |
+      Subscribe to detailed slot update lifecycle events (firstShredReceived,
+      completed, createdBank, frozen, dead, optimisticConfirmation, root).
+      Cancel with `slotsUpdatesUnsubscribe`.
+    servers:
+      - solana
+    publish:
+      operationId: subscribeSolanaSlotsUpdates
+      summary: Send slotsUpdatesSubscribe / slotsUpdatesUnsubscribe
+      message:
+        oneOf:
+          - $ref: '#/components/messages/SolSlotsUpdatesSubscribeRequest'
+          - $ref: '#/components/messages/SolSlotsUpdatesUnsubscribeRequest'
+    subscribe:
+      operationId: receiveSolanaSlotsUpdates
+      summary: Receive subscription id and slot-update notifications
+      message:
+        oneOf:
+          - $ref: '#/components/messages/SolSubscribeResponse'
+          - $ref: '#/components/messages/SolUnsubscribeResponse'
+          - $ref: '#/components/messages/SolSlotsUpdatesNotification'
+
+  solana/voteSubscribe:
+    description: |
+      Subscribe to pre-consensus validator vote notifications. Cancel with
+      `voteUnsubscribe`. Note: votes are pre-consensus and may not enter the
+      ledger.
+    servers:
+      - solana
+    publish:
+      operationId: subscribeSolanaVote
+      summary: Send voteSubscribe / voteUnsubscribe
+      message:
+        oneOf:
+          - $ref: '#/components/messages/SolVoteSubscribeRequest'
+          - $ref: '#/components/messages/SolVoteUnsubscribeRequest'
+    subscribe:
+      operationId: receiveSolanaVote
+      summary: Receive subscription id and vote notifications
+      message:
+        oneOf:
+          - $ref: '#/components/messages/SolSubscribeResponse'
+          - $ref: '#/components/messages/SolUnsubscribeResponse'
+          - $ref: '#/components/messages/SolVoteNotification'
+
+  solana/rootSubscribe:
+    description: |
+      Subscribe to new root slot notifications. Cancel with `rootUnsubscribe`.
+    servers:
+      - solana
+    publish:
+      operationId: subscribeSolanaRoot
+      summary: Send rootSubscribe / rootUnsubscribe
+      message:
+        oneOf:
+          - $ref: '#/components/messages/SolRootSubscribeRequest'
+          - $ref: '#/components/messages/SolRootUnsubscribeRequest'
+    subscribe:
+      operationId: receiveSolanaRoot
+      summary: Receive subscription id and root notifications
+      message:
+        oneOf:
+          - $ref: '#/components/messages/SolSubscribeResponse'
+          - $ref: '#/components/messages/SolUnsubscribeResponse'
+          - $ref: '#/components/messages/SolRootNotification'
+
+components:
+  messages:
+    # ---------- Ethereum messages ----------
+    EthSubscribeNewHeadsRequest:
+      name: EthSubscribeNewHeadsRequest
+      title: eth_subscribe newHeads request
+      summary: Subscribe to new block headers
+      contentType: application/json
+      payload:
+        type: object
+        required: [jsonrpc, id, method, params]
+        properties:
+          jsonrpc: { const: '2.0' }
+          id: { type: [integer, string] }
+          method: { const: eth_subscribe }
+          params:
+            type: array
+            minItems: 1
+            maxItems: 1
+            items:
+              - { type: string, const: newHeads }
+        example:
+          jsonrpc: '2.0'
+          id: 1
+          method: eth_subscribe
+          params: [newHeads]
+
+    EthSubscribeLogsRequest:
+      name: EthSubscribeLogsRequest
+      title: eth_subscribe logs request
+      summary: Subscribe to logs matching an optional address/topics filter
+      contentType: application/json
+      payload:
+        type: object
+        required: [jsonrpc, id, method, params]
+        properties:
+          jsonrpc: { const: '2.0' }
+          id: { type: [integer, string] }
+          method: { const: eth_subscribe }
+          params:
+            type: array
+            minItems: 1
+            maxItems: 2
+            items:
+              - { type: string, const: logs }
+              - $ref: '#/components/schemas/EthLogsFilter'
+        example:
+          jsonrpc: '2.0'
+          id: 1
+          method: eth_subscribe
+          params:
+            - logs
+            - address: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'
+              topics:
+                - '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'
+
+    EthSubscribeNewPendingTransactionsRequest:
+      name: EthSubscribeNewPendingTransactionsRequest
+      title: eth_subscribe newPendingTransactions request
+      summary: Subscribe to pending transactions in the mempool
+      contentType: application/json
+      payload:
+        type: object
+        required: [jsonrpc, id, method, params]
+        properties:
+          jsonrpc: { const: '2.0' }
+          id: { type: [integer, string] }
+          method: { const: eth_subscribe }
+          params:
+            type: array
+            minItems: 1
+            maxItems: 2
+            items:
+              - { type: string, const: newPendingTransactions }
+              - { type: boolean, description: 'When true, returns full transaction objects instead of hashes' }
+        example:
+          jsonrpc: '2.0'
+          id: 1
+          method: eth_subscribe
+          params: [newPendingTransactions, false]
+
+    EthSubscribeSyncingRequest:
+      name: EthSubscribeSyncingRequest
+      title: eth_subscribe syncing request
+      summary: Subscribe to node sync state notifications
+      contentType: application/json
+      payload:
+        type: object
+        required: [jsonrpc, id, method, params]
+        properties:
+          jsonrpc: { const: '2.0' }
+          id: { type: [integer, string] }
+          method: { const: eth_subscribe }
+          params:
+            type: array
+            minItems: 1
+            maxItems: 1
+            items:
+              - { type: string, const: syncing }
+        example:
+          jsonrpc: '2.0'
+          id: 1
+          method: eth_subscribe
+          params: [syncing]
+
+    EthUnsubscribeRequest:
+      name: EthUnsubscribeRequest
+      title: eth_unsubscribe request
+      summary: Cancel an active eth_subscribe subscription
+      contentType: application/json
+      payload:
+        type: object
+        required: [jsonrpc, id, method, params]
+        properties:
+          jsonrpc: { const: '2.0' }
+          id: { type: [integer, string] }
+          method: { const: eth_unsubscribe }
+          params:
+            type: array
+            minItems: 1
+            maxItems: 1
+            items:
+              - { type: string, description: 'Hex-encoded subscription id returned from eth_subscribe' }
+        example:
+          jsonrpc: '2.0'
+          id: 2
+          method: eth_unsubscribe
+          params: ['0x9cef478923ff08bf67fde6c64013158d']
+
+    EthSubscribeResponse:
+      name: EthSubscribeResponse
+      title: eth_subscribe response
+      summary: Returned subscription id (hex string)
+      contentType: application/json
+      payload:
+        type: object
+        required: [jsonrpc, id, result]
+        properties:
+          jsonrpc: { const: '2.0' }
+          id: { type: [integer, string] }
+          result:
+            type: string
+            description: Hex-encoded subscription id
+        example:
+          jsonrpc: '2.0'
+          id: 1
+          result: '0x9cef478923ff08bf67fde6c64013158d'
+
+    EthUnsubscribeResponse:
+      name: EthUnsubscribeResponse
+      title: eth_unsubscribe response
+      contentType: application/json
+      payload:
+        type: object
+        required: [jsonrpc, id, result]
+        properties:
+          jsonrpc: { const: '2.0' }
+          id: { type: [integer, string] }
+          result:
+            type: boolean
+            description: True if the subscription was cancelled
+        example:
+          jsonrpc: '2.0'
+          id: 2
+          result: true
+
+    EthNewHeadsNotification:
+      name: EthNewHeadsNotification
+      title: eth_subscription newHeads notification
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/EthNotificationEnvelope'
+        # the result is a block header
+
+    EthLogsNotification:
+      name: EthLogsNotification
+      title: eth_subscription logs notification
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/EthNotificationEnvelope'
+
+    EthNewPendingTransactionsNotification:
+      name: EthNewPendingTransactionsNotification
+      title: eth_subscription newPendingTransactions notification
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/EthNotificationEnvelope'
+
+    EthSyncingNotification:
+      name: EthSyncingNotification
+      title: eth_subscription syncing notification
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/EthNotificationEnvelope'
+
+    # ---------- Solana shared messages ----------
+    SolSubscribeResponse:
+      name: SolSubscribeResponse
+      title: Solana *Subscribe response
+      summary: Returned subscription id (integer)
+      contentType: application/json
+      payload:
+        type: object
+        required: [jsonrpc, id, result]
+        properties:
+          jsonrpc: { const: '2.0' }
+          id: { type: [integer, string] }
+          result:
+            type: integer
+            description: Subscription id used to unsubscribe
+        example:
+          jsonrpc: '2.0'
+          id: 1
+          result: 23784
+
+    SolUnsubscribeResponse:
+      name: SolUnsubscribeResponse
+      title: Solana *Unsubscribe response
+      contentType: application/json
+      payload:
+        type: object
+        required: [jsonrpc, id, result]
+        properties:
+          jsonrpc: { const: '2.0' }
+          id: { type: [integer, string] }
+          result: { type: boolean }
+        example:
+          jsonrpc: '2.0'
+          id: 2
+          result: true
+
+    # ---------- Solana account ----------
+    SolAccountSubscribeRequest:
+      name: SolAccountSubscribeRequest
+      title: accountSubscribe request
+      contentType: application/json
+      payload:
+        type: object
+        required: [jsonrpc, id, method, params]
+        properties:
+          jsonrpc: { const: '2.0' }
+          id: { type: [integer, string] }
+          method: { const: accountSubscribe }
+          params:
+            type: array
+            minItems: 1
+            maxItems: 2
+            items:
+              - { type: string, description: 'Base-58 Pubkey of the account to monitor' }
+              - $ref: '#/components/schemas/SolAccountConfig'
+        example:
+          jsonrpc: '2.0'
+          id: 1
+          method: accountSubscribe
+          params:
+            - 'CM78CPUeXjn8o3yroDHxUtKsZZgoy4GPkPPXfouKNH12'
+            - { encoding: jsonParsed, commitment: finalized }
+
+    SolAccountUnsubscribeRequest:
+      name: SolAccountUnsubscribeRequest
+      title: accountUnsubscribe request
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/SolUnsubscribeRequestBody'
+
+    SolAccountNotification:
+      name: SolAccountNotification
+      title: accountNotification
+      summary: Notification matching the getAccountInfo response shape
+      contentType: application/json
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/SolNotificationEnvelope'
+          - type: object
+            properties:
+              method: { const: accountNotification }
+
+    # ---------- Solana block ----------
+    SolBlockSubscribeRequest:
+      name: SolBlockSubscribeRequest
+      title: blockSubscribe request
+      contentType: application/json
+      payload:
+        type: object
+        required: [jsonrpc, id, method, params]
+        properties:
+          jsonrpc: { const: '2.0' }
+          id: { type: [integer, string] }
+          method: { const: blockSubscribe }
+          params:
+            type: array
+            minItems: 1
+            maxItems: 2
+            items:
+              - oneOf:
+                  - { type: string, enum: [all] }
+                  - type: object
+                    properties:
+                      mentionsAccountOrProgram: { type: string }
+              - $ref: '#/components/schemas/SolBlockConfig'
+        example:
+          jsonrpc: '2.0'
+          id: 1
+          method: blockSubscribe
+          params: [all]
+
+    SolBlockUnsubscribeRequest:
+      name: SolBlockUnsubscribeRequest
+      title: blockUnsubscribe request
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/SolUnsubscribeRequestBody'
+
+    SolBlockNotification:
+      name: SolBlockNotification
+      title: blockNotification
+      contentType: application/json
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/SolNotificationEnvelope'
+          - type: object
+            properties:
+              method: { const: blockNotification }
+              params:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      context:
+                        type: object
+                        properties:
+                          slot: { type: integer }
+                      value:
+                        type: object
+                        properties:
+                          slot: { type: integer }
+                          err: { type: [object, 'null'] }
+                          block:
+                            type: object
+                            description: Block object (same shape as getBlock)
+
+    # ---------- Solana logs ----------
+    SolLogsSubscribeRequest:
+      name: SolLogsSubscribeRequest
+      title: logsSubscribe request
+      contentType: application/json
+      payload:
+        type: object
+        required: [jsonrpc, id, method, params]
+        properties:
+          jsonrpc: { const: '2.0' }
+          id: { type: [integer, string] }
+          method: { const: logsSubscribe }
+          params:
+            type: array
+            minItems: 1
+            maxItems: 2
+            items:
+              - oneOf:
+                  - { type: string, enum: [all, allWithVotes] }
+                  - type: object
+                    properties:
+                      mentions:
+                        type: array
+                        items: { type: string }
+              - type: object
+                properties:
+                  commitment: { $ref: '#/components/schemas/SolCommitment' }
+                  encoding: { $ref: '#/components/schemas/SolEncoding' }
+        example:
+          jsonrpc: '2.0'
+          id: 1
+          method: logsSubscribe
+          params:
+            - { mentions: ['11111111111111111111111111111111'] }
+            - { commitment: finalized }
+
+    SolLogsUnsubscribeRequest:
+      name: SolLogsUnsubscribeRequest
+      title: logsUnsubscribe request
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/SolUnsubscribeRequestBody'
+
+    SolLogsNotification:
+      name: SolLogsNotification
+      title: logsNotification
+      contentType: application/json
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/SolNotificationEnvelope'
+          - type: object
+            properties:
+              method: { const: logsNotification }
+              params:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      context:
+                        type: object
+                        properties:
+                          slot: { type: integer }
+                      value:
+                        type: object
+                        properties:
+                          signature: { type: string, description: Base-58 transaction signature }
+                          err: { type: [object, 'null'] }
+                          logs:
+                            type: [array, 'null']
+                            items: { type: string }
+
+    # ---------- Solana program ----------
+    SolProgramSubscribeRequest:
+      name: SolProgramSubscribeRequest
+      title: programSubscribe request
+      contentType: application/json
+      payload:
+        type: object
+        required: [jsonrpc, id, method, params]
+        properties:
+          jsonrpc: { const: '2.0' }
+          id: { type: [integer, string] }
+          method: { const: programSubscribe }
+          params:
+            type: array
+            minItems: 1
+            maxItems: 2
+            items:
+              - { type: string, description: 'Base-58 program id' }
+              - $ref: '#/components/schemas/SolProgramConfig'
+        example:
+          jsonrpc: '2.0'
+          id: 1
+          method: programSubscribe
+          params:
+            - 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'
+            - { encoding: jsonParsed, commitment: confirmed }
+
+    SolProgramUnsubscribeRequest:
+      name: SolProgramUnsubscribeRequest
+      title: programUnsubscribe request
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/SolUnsubscribeRequestBody'
+
+    SolProgramNotification:
+      name: SolProgramNotification
+      title: programNotification
+      summary: Notification matching the getProgramAccounts response shape
+      contentType: application/json
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/SolNotificationEnvelope'
+          - type: object
+            properties:
+              method: { const: programNotification }
+
+    # ---------- Solana signature ----------
+    SolSignatureSubscribeRequest:
+      name: SolSignatureSubscribeRequest
+      title: signatureSubscribe request
+      contentType: application/json
+      payload:
+        type: object
+        required: [jsonrpc, id, method, params]
+        properties:
+          jsonrpc: { const: '2.0' }
+          id: { type: [integer, string] }
+          method: { const: signatureSubscribe }
+          params:
+            type: array
+            minItems: 1
+            maxItems: 2
+            items:
+              - { type: string, description: 'Base-58 transaction signature' }
+              - type: object
+                properties:
+                  commitment: { $ref: '#/components/schemas/SolCommitment' }
+        example:
+          jsonrpc: '2.0'
+          id: 1
+          method: signatureSubscribe
+          params:
+            - '5h6xBEauJ3PK6SWCZ1PGjBvj8vDdWG3KcEZQXKZ7G4'
+            - { commitment: finalized }
+
+    SolSignatureUnsubscribeRequest:
+      name: SolSignatureUnsubscribeRequest
+      title: signatureUnsubscribe request
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/SolUnsubscribeRequestBody'
+
+    SolSignatureNotification:
+      name: SolSignatureNotification
+      title: signatureNotification
+      summary: |
+        Delivered once when the signature reaches the requested commitment.
+        The subscription is automatically cancelled after delivery.
+      contentType: application/json
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/SolNotificationEnvelope'
+          - type: object
+            properties:
+              method: { const: signatureNotification }
+              params:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      context:
+                        type: object
+                        properties:
+                          slot: { type: integer }
+                      value:
+                        type: object
+                        properties:
+                          err: { type: [object, 'null'] }
+
+    # ---------- Solana slot ----------
+    SolSlotSubscribeRequest:
+      name: SolSlotSubscribeRequest
+      title: slotSubscribe request
+      contentType: application/json
+      payload:
+        type: object
+        required: [jsonrpc, id, method]
+        properties:
+          jsonrpc: { const: '2.0' }
+          id: { type: [integer, string] }
+          method: { const: slotSubscribe }
+          params:
+            type: array
+            maxItems: 0
+        example:
+          jsonrpc: '2.0'
+          id: 1
+          method: slotSubscribe
+
+    SolSlotUnsubscribeRequest:
+      name: SolSlotUnsubscribeRequest
+      title: slotUnsubscribe request
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/SolUnsubscribeRequestBody'
+
+    SolSlotNotification:
+      name: SolSlotNotification
+      title: slotNotification
+      contentType: application/json
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/SolNotificationEnvelope'
+          - type: object
+            properties:
+              method: { const: slotNotification }
+              params:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    required: [parent, root, slot]
+                    properties:
+                      parent: { type: integer, description: Parent slot number }
+                      root:   { type: integer, description: Current root slot }
+                      slot:   { type: integer, description: New slot value }
+
+    # ---------- Solana slotsUpdates ----------
+    SolSlotsUpdatesSubscribeRequest:
+      name: SolSlotsUpdatesSubscribeRequest
+      title: slotsUpdatesSubscribe request
+      contentType: application/json
+      payload:
+        type: object
+        required: [jsonrpc, id, method]
+        properties:
+          jsonrpc: { const: '2.0' }
+          id: { type: [integer, string] }
+          method: { const: slotsUpdatesSubscribe }
+          params:
+            type: array
+            maxItems: 0
+        example:
+          jsonrpc: '2.0'
+          id: 1
+          method: slotsUpdatesSubscribe
+
+    SolSlotsUpdatesUnsubscribeRequest:
+      name: SolSlotsUpdatesUnsubscribeRequest
+      title: slotsUpdatesUnsubscribe request
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/SolUnsubscribeRequestBody'
+
+    SolSlotsUpdatesNotification:
+      name: SolSlotsUpdatesNotification
+      title: slotsUpdatesNotification
+      contentType: application/json
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/SolNotificationEnvelope'
+          - type: object
+            properties:
+              method: { const: slotsUpdatesNotification }
+              params:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    required: [slot, timestamp, type]
+                    properties:
+                      slot:      { type: integer }
+                      timestamp: { type: integer, description: Unix timestamp }
+                      type:
+                        type: string
+                        enum:
+                          - firstShredReceived
+                          - completed
+                          - createdBank
+                          - frozen
+                          - dead
+                          - optimisticConfirmation
+                          - root
+                      stats:
+                        type: object
+                        description: Only present for 'frozen' updates
+                        properties:
+                          numTransactionEntries:      { type: integer }
+                          numSuccessfulTransactions:  { type: integer }
+                          numFailedTransactions:      { type: integer }
+                          maxTransactionsPerEntry:    { type: integer }
+
+    # ---------- Solana vote ----------
+    SolVoteSubscribeRequest:
+      name: SolVoteSubscribeRequest
+      title: voteSubscribe request
+      contentType: application/json
+      payload:
+        type: object
+        required: [jsonrpc, id, method]
+        properties:
+          jsonrpc: { const: '2.0' }
+          id: { type: [integer, string] }
+          method: { const: voteSubscribe }
+          params:
+            type: array
+            maxItems: 0
+        example:
+          jsonrpc: '2.0'
+          id: 1
+          method: voteSubscribe
+
+    SolVoteUnsubscribeRequest:
+      name: SolVoteUnsubscribeRequest
+      title: voteUnsubscribe request
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/SolUnsubscribeRequestBody'
+
+    SolVoteNotification:
+      name: SolVoteNotification
+      title: voteNotification
+      contentType: application/json
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/SolNotificationEnvelope'
+          - type: object
+            properties:
+              method: { const: voteNotification }
+              params:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    required: [votePubkey, slots, hash, signature]
+                    properties:
+                      votePubkey: { type: string, description: Base-58 vote account address }
+                      slots:
+                        type: array
+                        items: { type: integer }
+                      hash:      { type: string, description: Base-58 vote hash }
+                      timestamp: { type: [integer, 'null'] }
+                      signature: { type: string, description: Transaction signature containing the vote }
+
+    # ---------- Solana root ----------
+    SolRootSubscribeRequest:
+      name: SolRootSubscribeRequest
+      title: rootSubscribe request
+      contentType: application/json
+      payload:
+        type: object
+        required: [jsonrpc, id, method]
+        properties:
+          jsonrpc: { const: '2.0' }
+          id: { type: [integer, string] }
+          method: { const: rootSubscribe }
+          params:
+            type: array
+            maxItems: 0
+        example:
+          jsonrpc: '2.0'
+          id: 1
+          method: rootSubscribe
+
+    SolRootUnsubscribeRequest:
+      name: SolRootUnsubscribeRequest
+      title: rootUnsubscribe request
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/SolUnsubscribeRequestBody'
+
+    SolRootNotification:
+      name: SolRootNotification
+      title: rootNotification
+      contentType: application/json
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/SolNotificationEnvelope'
+          - type: object
+            properties:
+              method: { const: rootNotification }
+              params:
+                type: object
+                properties:
+                  result:
+                    type: integer
+                    description: Latest root slot number
+
+  schemas:
+    # ---------- Ethereum shared ----------
+    EthLogsFilter:
+      type: object
+      description: Filter object for the `logs` subscription
+      properties:
+        address:
+          oneOf:
+            - { type: string, description: Single 20-byte hex address }
+            - type: array
+              items: { type: string }
+        topics:
+          type: array
+          description: Array of up to 4 topic filters (each a hex string, array, or null)
+          items:
+            oneOf:
+              - { type: string }
+              - { type: array, items: { type: string } }
+              - { type: 'null' }
+
+    EthNotificationEnvelope:
+      type: object
+      description: JSON-RPC notification pushed by the server
+      required: [jsonrpc, method, params]
+      properties:
+        jsonrpc: { const: '2.0' }
+        method:  { const: eth_subscription }
+        params:
+          type: object
+          required: [subscription, result]
+          properties:
+            subscription:
+              type: string
+              description: Hex-encoded subscription id this notification belongs to
+            result:
+              description: |
+                Payload shape depends on subscription type:
+                - newHeads: a block header object
+                - logs: a log object
+                - newPendingTransactions: a tx hash (string) or full tx object
+                - syncing: { syncing: bool, status: {...} } object or false
+      example:
+        jsonrpc: '2.0'
+        method: eth_subscription
+        params:
+          subscription: '0x9cef478923ff08bf67fde6c64013158d'
+          result:
+            number: '0x1b4'
+            hash: '0x...'
+            parentHash: '0x...'
+
+    # ---------- Solana shared ----------
+    SolCommitment:
+      type: string
+      enum: [finalized, confirmed, processed]
+
+    SolEncoding:
+      type: string
+      enum: [base58, base64, base64+zstd, jsonParsed]
+
+    SolAccountConfig:
+      type: object
+      properties:
+        commitment: { $ref: '#/components/schemas/SolCommitment' }
+        encoding:   { $ref: '#/components/schemas/SolEncoding' }
+
+    SolProgramConfig:
+      type: object
+      properties:
+        commitment: { $ref: '#/components/schemas/SolCommitment' }
+        encoding:   { $ref: '#/components/schemas/SolEncoding' }
+        filters:
+          type: array
+          description: Account filters; all must match for inclusion
+          items:
+            type: object
+
+    SolBlockConfig:
+      type: object
+      properties:
+        commitment:
+          type: string
+          enum: [finalized, confirmed]
+        transactionDetails:
+          type: string
+          enum: [full, accounts, signatures, none]
+        maxSupportedTransactionVersion: { type: integer }
+        showRewards: { type: boolean }
+        encoding:   { $ref: '#/components/schemas/SolEncoding' }
+
+    SolUnsubscribeRequestBody:
+      type: object
+      required: [jsonrpc, id, method, params]
+      properties:
+        jsonrpc: { const: '2.0' }
+        id: { type: [integer, string] }
+        method:
+          type: string
+          enum:
+            - accountUnsubscribe
+            - blockUnsubscribe
+            - logsUnsubscribe
+            - programUnsubscribe
+            - signatureUnsubscribe
+            - slotUnsubscribe
+            - slotsUpdatesUnsubscribe
+            - voteUnsubscribe
+            - rootUnsubscribe
+        params:
+          type: array
+          minItems: 1
+          maxItems: 1
+          items:
+            - { type: integer, description: 'Subscription id returned from the matching *Subscribe call' }
+      example:
+        jsonrpc: '2.0'
+        id: 2
+        method: accountUnsubscribe
+        params: [23784]
+
+    SolNotificationEnvelope:
+      type: object
+      description: JSON-RPC notification envelope pushed by the server
+      required: [jsonrpc, method, params]
+      properties:
+        jsonrpc: { const: '2.0' }
+        method:  { type: string, description: 'e.g. accountNotification, slotNotification, etc.' }
+        params:
+          type: object
+          required: [subscription, result]
+          properties:
+            subscription:
+              type: integer
+              description: Subscription id this notification belongs to
+            result:
+              description: Subscription-specific payload
