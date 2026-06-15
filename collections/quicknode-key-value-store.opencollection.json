@@ -1,0 +1,181 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "QuickNode Key-Value Store REST API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-api-key",
+      "value": "{{x-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Database",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List databases",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.quicknode.com/kv/rest/v1/databases"
+          },
+          "docs": "List databases"
+        },
+        {
+          "info": {
+            "name": "Create a database",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.quicknode.com/kv/rest/v1/databases",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a database"
+        },
+        {
+          "info": {
+            "name": "Delete a database",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.quicknode.com/kv/rest/v1/databases/:database",
+            "params": [
+              {
+                "name": "database",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a database"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a value by key",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.quicknode.com/kv/rest/v1/databases/:database/keys/:key",
+            "params": [
+              {
+                "name": "database",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a value by key"
+        },
+        {
+          "info": {
+            "name": "Set a value for a key",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.quicknode.com/kv/rest/v1/databases/:database/keys/:key",
+            "params": [
+              {
+                "name": "database",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set a value for a key"
+        },
+        {
+          "info": {
+            "name": "Delete a key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.quicknode.com/kv/rest/v1/databases/:database/keys/:key",
+            "params": [
+              {
+                "name": "database",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a key"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Batch",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Bulk write keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.quicknode.com/kv/rest/v1/databases/:database/batch",
+            "params": [
+              {
+                "name": "database",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Bulk write keys"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

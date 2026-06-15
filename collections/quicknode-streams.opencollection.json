@@ -1,0 +1,150 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "QuickNode Streams REST API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-api-key",
+      "value": "{{x-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Streams",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Streams",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.quicknode.com/streams/rest/v1/streams"
+          },
+          "docs": "List Streams"
+        },
+        {
+          "info": {
+            "name": "Create a Stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.quicknode.com/streams/rest/v1/streams",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Stream"
+        },
+        {
+          "info": {
+            "name": "Get Stream details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.quicknode.com/streams/rest/v1/streams/:streamId",
+            "params": [
+              {
+                "name": "streamId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Stream details"
+        },
+        {
+          "info": {
+            "name": "Delete a Stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.quicknode.com/streams/rest/v1/streams/:streamId",
+            "params": [
+              {
+                "name": "streamId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a Stream"
+        },
+        {
+          "info": {
+            "name": "Pause a Stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.quicknode.com/streams/rest/v1/streams/:streamId/pause",
+            "params": [
+              {
+                "name": "streamId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Pause a Stream"
+        },
+        {
+          "info": {
+            "name": "Resume a Stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.quicknode.com/streams/rest/v1/streams/:streamId/resume",
+            "params": [
+              {
+                "name": "streamId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Resume a Stream"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Logs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Stream logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.quicknode.com/streams/rest/v1/streams/:streamId/logs",
+            "params": [
+              {
+                "name": "streamId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List Stream logs"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
