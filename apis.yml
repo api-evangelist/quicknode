@@ -6,7 +6,7 @@ description: QuickNode is a multi-chain Web3 infrastructure provider supporting 
   blockchains via JSON-RPC, REST, and gRPC. Core products include high-performance
   RPC nodes, Streams (real-time event streaming), Webhooks, IPFS, a Key-Value Store,
   and a Marketplace of add-ons.
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
   - Web3
   - Blockchain
