@@ -113,6 +113,14 @@ apis:
     - type: Documentation
       url: https://www.quicknode.com/docs/functions
 common:
+  - type: TrustCenter
+    url: security/quicknode-trust-center.yml
+  - type: VulnerabilityDisclosure
+    url: security/quicknode-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/quicknode-domain-security.yml
+  - type: Authentication
+    url: authentication/quicknode-authentication.yml
   - type: GitHubOrganization
     url: https://github.com/quiknode-labs
   - type: LinkedIn
