@@ -113,6 +113,8 @@ apis:
     - type: Documentation
       url: https://www.quicknode.com/docs/functions
 common:
+  - type: AgenticAccess
+    url: agentic-access/quicknode-agentic-access.yml
   - type: TrustCenter
     url: security/quicknode-trust-center.yml
   - type: VulnerabilityDisclosure
