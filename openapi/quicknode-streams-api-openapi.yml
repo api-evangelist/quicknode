@@ -1,33 +1,25 @@
 openapi: 3.1.0
 info:
-  title: QuickNode Streams REST API
-  description: >-
-    The QuickNode Streams REST API allows developers to create, manage, and
-    monitor Streams, QuickNode's customizable real-time blockchain data feed
-    service. Streams can be configured to deliver filtered event-driven data
-    over destinations such as webhooks or storage targets. The REST API
-    supports listing, creating, pausing, resuming, and inspecting streams,
-    as well as retrieving execution logs.
-  version: '1.0.0'
+  title: QuickNode IPFS REST Account Streams API
+  description: The QuickNode IPFS REST API provides programmatic access to QuickNode's managed IPFS pinning, gateway, and account services. Developers can pin files and CIDs to keep them persistently available on the InterPlanetary File System, manage dedicated gateways for retrieval, and inspect account usage including bandwidth and storage. Authentication is performed using an API key issued from the QuickNode dashboard.
+  version: 1.0.0
   contact:
     name: QuickNode Support
     url: https://www.quicknode.com/support
-externalDocs:
-  description: QuickNode Streams Documentation
-  url: https://www.quicknode.com/docs/streams
+  termsOfService: https://www.quicknode.com/terms-of-service
 servers:
-  - url: https://api.quicknode.com/streams/rest/v1
-    description: QuickNode Streams REST production server
+- url: https://api.quicknode.com/ipfs/rest
+  description: QuickNode IPFS REST production server
+security:
+- ApiKeyAuth: []
 tags:
-  - name: Streams
-    description: Manage Streams definitions and lifecycle.
-  - name: Logs
-    description: Inspect Stream execution logs.
+- name: Streams
+  description: Manage Streams definitions and lifecycle.
 paths:
   /streams:
     get:
       tags:
-        - Streams
+      - Streams
       summary: List Streams
       operationId: listStreams
       responses:
@@ -35,7 +27,7 @@ paths:
           description: Successful response
     post:
       tags:
-        - Streams
+      - Streams
       summary: Create a Stream
       operationId: createStream
       requestBody:
@@ -61,82 +53,68 @@ paths:
   /streams/{streamId}:
     get:
       tags:
-        - Streams
+      - Streams
       summary: Get Stream details
       operationId: getStream
       parameters:
-        - name: streamId
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: streamId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Successful response
     delete:
       tags:
-        - Streams
+      - Streams
       summary: Delete a Stream
       operationId: deleteStream
       parameters:
-        - name: streamId
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: streamId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '204':
           description: Stream deleted
   /streams/{streamId}/pause:
     post:
       tags:
-        - Streams
+      - Streams
       summary: Pause a Stream
       operationId: pauseStream
       parameters:
-        - name: streamId
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: streamId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Stream paused
   /streams/{streamId}/resume:
     post:
       tags:
-        - Streams
+      - Streams
       summary: Resume a Stream
       operationId: resumeStream
       parameters:
-        - name: streamId
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: streamId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Stream resumed
-  /streams/{streamId}/logs:
-    get:
-      tags:
-        - Logs
-      summary: List Stream logs
-      operationId: listStreamLogs
-      parameters:
-        - name: streamId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Successful response
 components:
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
       in: header
       name: x-api-key
-security:
-  - ApiKeyAuth: []
+externalDocs:
+  description: QuickNode IPFS Documentation
+  url: https://www.quicknode.com/docs/ipfs

@@ -1,0 +1,55 @@
+openapi: 3.1.0
+info:
+  title: QuickNode IPFS REST Account Gateway API
+  description: The QuickNode IPFS REST API provides programmatic access to QuickNode's managed IPFS pinning, gateway, and account services. Developers can pin files and CIDs to keep them persistently available on the InterPlanetary File System, manage dedicated gateways for retrieval, and inspect account usage including bandwidth and storage. Authentication is performed using an API key issued from the QuickNode dashboard.
+  version: 1.0.0
+  contact:
+    name: QuickNode Support
+    url: https://www.quicknode.com/support
+  termsOfService: https://www.quicknode.com/terms-of-service
+servers:
+- url: https://api.quicknode.com/ipfs/rest
+  description: QuickNode IPFS REST production server
+security:
+- ApiKeyAuth: []
+tags:
+- name: Gateway
+  description: Create and manage gateways for retrieving content from the IPFS network.
+paths:
+  /v1/gateways:
+    get:
+      tags:
+      - Gateway
+      summary: List gateways
+      operationId: listGateways
+      responses:
+        '200':
+          description: Successful response
+    post:
+      tags:
+      - Gateway
+      summary: Create gateway
+      operationId: createGateway
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                customDomain:
+                  type: string
+      responses:
+        '201':
+          description: Gateway created
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+externalDocs:
+  description: QuickNode IPFS Documentation
+  url: https://www.quicknode.com/docs/ipfs

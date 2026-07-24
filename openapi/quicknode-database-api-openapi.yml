@@ -1,0 +1,68 @@
+openapi: 3.1.0
+info:
+  title: QuickNode IPFS REST Account Database API
+  description: The QuickNode IPFS REST API provides programmatic access to QuickNode's managed IPFS pinning, gateway, and account services. Developers can pin files and CIDs to keep them persistently available on the InterPlanetary File System, manage dedicated gateways for retrieval, and inspect account usage including bandwidth and storage. Authentication is performed using an API key issued from the QuickNode dashboard.
+  version: 1.0.0
+  contact:
+    name: QuickNode Support
+    url: https://www.quicknode.com/support
+  termsOfService: https://www.quicknode.com/terms-of-service
+servers:
+- url: https://api.quicknode.com/ipfs/rest
+  description: QuickNode IPFS REST production server
+security:
+- ApiKeyAuth: []
+tags:
+- name: Database
+  description: Manage key-value namespaces (databases).
+paths:
+  /databases:
+    get:
+      tags:
+      - Database
+      summary: List databases
+      operationId: listDatabases
+      responses:
+        '200':
+          description: Successful response
+    post:
+      tags:
+      - Database
+      summary: Create a database
+      operationId: createDatabase
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '201':
+          description: Database created
+  /databases/{database}:
+    delete:
+      tags:
+      - Database
+      summary: Delete a database
+      operationId: deleteDatabase
+      parameters:
+      - name: database
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Database deleted
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+externalDocs:
+  description: QuickNode IPFS Documentation
+  url: https://www.quicknode.com/docs/ipfs
