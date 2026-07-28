@@ -1,0 +1,305 @@
+{
+  "name": "Quicknode Blockchain Agent",
+  "description": "Multi-chain blockchain infrastructure agent. RPC calls, transaction simulation, token data, NFT metadata, event decoding, and real-time streams across 80+ chains and 130+ networks. Autonomous account and endpoint provisioning via x402 or MPP, plus pay-per-request RPC via x402 or API key.",
+  "version": "1.0.0",
+  "url": "https://mcp.quicknode.com/mcp",
+  "provider": {
+    "organization": "Quicknode",
+    "url": "https://www.quicknode.com"
+  },
+  "iconUrl": "https://www.quicknode.com/favicon.ico",
+  "documentationUrl": "https://www.quicknode.com/docs",
+  "termsOfServiceUrl": "https://www.quicknode.com/terms",
+  "pricingUrl": "https://www.quicknode.com/pricing",
+  "supportedInterfaces": [
+    {
+      "url": "https://mcp.quicknode.com/mcp",
+      "transport": {
+        "type": "http",
+        "protocol": "MCP"
+      }
+    },
+    {
+      "url": "https://api.quicknode.com",
+      "transport": {
+        "type": "http",
+        "protocol": "REST"
+      }
+    },
+    {
+      "url": "https://x402.quicknode.com",
+      "transport": {
+        "type": "http",
+        "protocol": "x402"
+      }
+    },
+    {
+      "url": "https://mpp.quicknode.com",
+      "transport": {
+        "type": "http",
+        "protocol": "MPP"
+      }
+    },
+    {
+      "url": "https://www.quicknode.com/openapi.json",
+      "transport": {
+        "type": "http",
+        "protocol": "OpenAPI"
+      }
+    }
+  ],
+  "capabilities": {
+    "streaming": true,
+    "pushNotifications": true
+  },
+  "defaultInputModes": [
+    "text/plain",
+    "application/json"
+  ],
+  "defaultOutputModes": [
+    "application/json",
+    "text/plain"
+  ],
+  "skills": [
+    {
+      "id": "provision_endpoint",
+      "name": "Autonomous Endpoint Provisioning",
+      "description": "Create a Quicknode subscription and RPC endpoint without human signup. Two-step flow: POST https://www.quicknode.com/api/v1/agent/subscriptions (pay via x402 or MPP; POST with no body to receive a 402 listing plans and payment methods), then POST https://api.quicknode.com/v0/endpoints with the returned QN_* key to create a dedicated RPC endpoint on any of 80+ chains. Walkthrough: https://www.quicknode.com/agents/create-endpoint.md",
+      "tags": [
+        "provisioning",
+        "subscription",
+        "endpoint",
+        "x402",
+        "mpp",
+        "admin-api",
+        "autonomous"
+      ],
+      "examples": [
+        "provision a Base mainnet RPC endpoint for me, I have USDC on Base",
+        "create a Quicknode subscription and give me an Ethereum endpoint",
+        "set up an autonomous Solana endpoint using my wallet"
+      ],
+      "inputModes": [
+        "text/plain",
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    },
+    {
+      "id": "rpc_call",
+      "name": "Blockchain RPC Call",
+      "description": "Execute JSON-RPC calls on any supported chain. eth_call, eth_getBalance, eth_getTransactionReceipt, getAccountInfo, etc.",
+      "tags": [
+        "rpc",
+        "blockchain",
+        "ethereum",
+        "solana",
+        "base",
+        "multi-chain"
+      ],
+      "examples": [
+        "get the ETH balance of 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
+        "call eth_getBlockByNumber for latest block on Ethereum",
+        "get Solana account info for a wallet address"
+      ],
+      "inputModes": [
+        "text/plain",
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    },
+    {
+      "id": "tx_simulation",
+      "name": "Transaction Simulation",
+      "description": "Simulate transactions before broadcasting. Returns gas estimates, revert reasons, state changes, and asset transfers.",
+      "tags": [
+        "simulation",
+        "gas",
+        "transaction",
+        "defi",
+        "safety"
+      ],
+      "examples": [
+        "simulate this swap transaction on Uniswap",
+        "estimate gas for a token transfer on Base",
+        "will this transaction revert?"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    },
+    {
+      "id": "token_lookup",
+      "name": "Token & Wallet Data",
+      "description": "Fetch token balances, metadata, prices, holders, and transfer history for any wallet across supported chains.",
+      "tags": [
+        "tokens",
+        "wallet",
+        "balances",
+        "erc20",
+        "spl",
+        "portfolio"
+      ],
+      "examples": [
+        "get all token balances for this wallet on Ethereum",
+        "what tokens does this Solana wallet hold?",
+        "get transfer history for this address"
+      ],
+      "inputModes": [
+        "text/plain",
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    },
+    {
+      "id": "nft_metadata",
+      "name": "NFT Data & Metadata",
+      "description": "Retrieve NFT collections, ownership, metadata, traits, and transfer history.",
+      "tags": [
+        "nft",
+        "metadata",
+        "collections",
+        "ownership"
+      ],
+      "examples": [
+        "get NFTs owned by this wallet",
+        "fetch metadata for this NFT contract and token ID",
+        "who owns this NFT?"
+      ],
+      "inputModes": [
+        "text/plain",
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    },
+    {
+      "id": "event_decoding",
+      "name": "Event & Log Decoding",
+      "description": "Fetch and decode smart contract events and logs. Filter by contract, topic, or block range.",
+      "tags": [
+        "events",
+        "logs",
+        "decode",
+        "smart-contracts",
+        "indexing"
+      ],
+      "examples": [
+        "get all Transfer events from USDC contract in the last 100 blocks",
+        "decode the logs from this transaction hash",
+        "find all Swap events on Uniswap V3 in block range"
+      ],
+      "inputModes": [
+        "text/plain",
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    },
+    {
+      "id": "streams_subscribe",
+      "name": "Real-time Blockchain Streams",
+      "description": "Subscribe to real-time blockchain data streams. New blocks, pending transactions, contract events, and custom filters.",
+      "tags": [
+        "streams",
+        "realtime",
+        "websocket",
+        "mempool",
+        "monitoring"
+      ],
+      "examples": [
+        "stream new blocks on Ethereum",
+        "monitor pending transactions to this contract",
+        "alert me when this wallet receives tokens"
+      ],
+      "inputModes": [
+        "text/plain",
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    },
+    {
+      "id": "sql_query",
+      "name": "Blockchain SQL Explorer",
+      "description": "Query indexed blockchain data using SQL. Blocks, transactions, logs, token transfers, and decoded contract data.",
+      "tags": [
+        "sql",
+        "analytics",
+        "query",
+        "indexed-data",
+        "explorer"
+      ],
+      "examples": [
+        "find the top 10 gas spenders on Ethereum today",
+        "query all USDC transfers over $1M in the last 24 hours",
+        "count unique active wallets on Base this week"
+      ],
+      "inputModes": [
+        "text/plain",
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    }
+  ],
+  "securitySchemes": {
+    "x402": {
+      "httpAuthSecurityScheme": {
+        "scheme": "x402",
+        "description": "Wallet-authenticated payment via x402 protocol. Used for per-request RPC access AND for autonomous subscription/endpoint provisioning (POST /api/v1/agent/subscriptions). USDC on Base, Solana, or Polygon. No account required."
+      }
+    },
+    "mpp": {
+      "httpAuthSecurityScheme": {
+        "scheme": "mpp",
+        "description": "Wallet-authenticated payment via Machine Payments Protocol (IETF draft). Used for per-request RPC access AND for autonomous subscription/endpoint provisioning (POST /api/v1/agent/subscriptions). PathUSD on Tempo or USDC on Solana. No account required."
+      }
+    },
+    "apiKey": {
+      "apiKeySecurityScheme": {
+        "in": "header",
+        "name": "X-API-Key",
+        "description": "Quicknode API key from a standard plan."
+      }
+    },
+    "oauth2": {
+      "oauth2SecurityScheme": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://mcp.quicknode.com/authorize",
+            "tokenUrl": "https://mcp.quicknode.com/token",
+            "scopes": {}
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "apiKey": []
+    },
+    {
+      "x402": []
+    },
+    {
+      "mpp": []
+    },
+    {
+      "oauth2": []
+    }
+  ]
+}

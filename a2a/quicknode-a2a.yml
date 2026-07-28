@@ -1,0 +1,37 @@
+generated: '2026-07-28'
+method: probed
+source: https://www.quicknode.com/.well-known/agent-card.json
+description: 'A2A Agent Card observed at /.well-known/agent-card.json on quicknode.com. Grade is measured
+  against the A2A 1.0.0 AgentCard object: ''conformant'' passes every structural check, ''near-conformant''
+  is correctly shaped but omits optional fields, ''flavored'' fails a hard check and is an agent card
+  in spirit rather than in schema. Provider-published by construction — served from the provider''s own
+  host; nothing here is derived or generated.'
+discovery:
+  path: /.well-known/agent-card.json
+  canonical: true
+  host: quicknode.com
+conformance:
+  spec: A2A 1.0.0
+  grade: flavored
+  protocol_version: null
+  preferred_transport: null
+  deviations:
+  - no-protocolVersion
+  - no-preferredTransport
+  - nonstandard-supportedInterfaces
+card:
+  name: Quicknode Blockchain Agent
+  description: Multi-chain blockchain infrastructure agent. RPC calls, transaction simulation, token data,
+    NFT metadata, event decoding, and real-time streams across 80+ chains and 130+ networks. Autonomous
+    account and endpoint provisioning via x402 or MPP, plus pay-per-request RPC via x402 or API key.
+  url: https://mcp.quicknode.com/mcp
+  version: 1.0.0
+  documentation_url: https://www.quicknode.com/docs
+  skills: 8
+  file: quicknode-agent-card.json
+x-evidence:
+  fetched: '2026-07-28'
+  url: https://www.quicknode.com/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json
+  note: Verbatim body saved alongside this manifest. No field inferred.
