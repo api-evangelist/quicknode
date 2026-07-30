@@ -18,100 +18,187 @@ created: '2026-05-08'
 modified: '2026-05-29'
 specificationVersion: '0.19'
 apis:
-  - aid: quicknode:core-rpc
-    name: QuickNode Core RPC API
-    description: Multi-chain JSON-RPC, REST, and gRPC endpoints across 77+ blockchains
-      (Ethereum, Solana, Polygon, Arbitrum, Optimism, Base, Bitcoin, Aptos, Avalanche,
-      BNB, etc.).
-    humanURL: https://www.quicknode.com/docs
-    baseURL: https://{endpoint-name}.{network}.quiknode.pro/{token}
-    tags:
-    - JSON-RPC
-    - WebSocket
-    - gRPC
-    - Multi-chain
-    properties:
-    - type: Documentation
-      url: https://www.quicknode.com/docs
-    - type: AsyncAPI
-      url: asyncapi/quicknode-asyncapi.yml
-  - aid: quicknode:streams
-    name: QuickNode Streams
-    description: Real-time blockchain data streaming with custom filters and webhook
-      delivery.
-    humanURL: https://www.quicknode.com/docs/streams/getting-started
-    baseURL: https://api.quicknode.com/streams/rest/v1
-    tags:
-    - REST
-    - Streaming
-    properties:
-    - type: Documentation
-      url: https://www.quicknode.com/docs/streams/getting-started
-    - type: OpenAPI
-      url: openapi/quicknode-streams-openapi.yml
-  - aid: quicknode:webhooks
-    name: QuickNode Webhooks
-    description: Event-driven webhook subscriptions with custom filtering for blockchain
-      events.
-    humanURL: https://www.quicknode.com/docs/quicknode-webhooks
-    baseURL: https://api.quicknode.com/webhooks/rest/v1
-    tags:
-    - REST
-    - Webhooks
-    properties:
-    - type: Documentation
-      url: https://www.quicknode.com/docs/quicknode-webhooks
-  - aid: quicknode:ipfs
-    name: QuickNode IPFS API
-    description: REST API for uploading, pinning, and retrieving content on IPFS.
-    humanURL: https://www.quicknode.com/docs/ipfs/getting-started
-    baseURL: https://api.quicknode.com/ipfs/rest/v1
-    tags:
-    - REST
-    - IPFS
-    properties:
-    - type: Documentation
-      url: https://www.quicknode.com/docs/ipfs/getting-started
-    - type: OpenAPI
-      url: openapi/quicknode-ipfs-openapi.yml
-  - aid: quicknode:kv-store
-    name: QuickNode Key-Value Store
-    description: REST API for large-scale dataset storage and retrieval keyed by string
-      identifiers.
-    humanURL: https://www.quicknode.com/docs/key-value-store
-    baseURL: https://api.quicknode.com/kv/rest/v1
-    tags:
-    - REST
-    - Storage
-    properties:
-    - type: Documentation
-      url: https://www.quicknode.com/docs/key-value-store
-    - type: OpenAPI
-      url: openapi/quicknode-key-value-store-openapi.yml
-  - aid: quicknode:marketplace
-    name: QuickNode Marketplace Add-ons
-    description: Catalog of opt-in add-on APIs (NFT API, Token API, DeFi API, Functions,
-      etc.) attached to a QuickNode endpoint.
-    humanURL: https://marketplace.quicknode.com/
-    baseURL: https://{endpoint}.quiknode.pro/{token}
-    tags:
-    - Marketplace
-    - Add-ons
-    properties:
-    - type: Documentation
-      url: https://marketplace.quicknode.com/
-  - aid: quicknode:functions
-    name: QuickNode Functions
-    description: Serverless on-chain logic runtime for executing custom code triggered
-      by Streams or HTTP.
-    humanURL: https://www.quicknode.com/docs/functions
-    baseURL: https://api.quicknode.com/functions/rest/v1
-    tags:
-    - REST
-    - Serverless
-    properties:
-    - type: Documentation
-      url: https://www.quicknode.com/docs/functions
+- aid: quicknode:core-rpc
+  name: QuickNode Core RPC API
+  description: >-
+    Multi-chain JSON-RPC, REST, and gRPC endpoints across 77+ blockchains (Ethereum, Solana, Polygon,
+    Arbitrum, Optimism, Base, Bitcoin, Aptos, Avalanche, BNB, etc.).
+  humanURL: https://www.quicknode.com/docs
+  baseURL: https://{endpoint-name}.{network}.quiknode.pro/{token}
+  tags:
+  - JSON-RPC
+  - WebSocket
+  - gRPC
+  - Multi-chain
+  properties:
+  - type: Documentation
+    url: https://www.quicknode.com/docs
+  - type: AsyncAPI
+    url: asyncapi/quicknode-asyncapi.yml
+- aid: quicknode:webhooks
+  name: QuickNode Webhooks
+  description: Event-driven webhook subscriptions with custom filtering for blockchain events.
+  humanURL: https://www.quicknode.com/docs/quicknode-webhooks
+  baseURL: https://api.quicknode.com/webhooks/rest/v1
+  tags:
+  - REST
+  - Webhooks
+  properties:
+  - type: Documentation
+    url: https://www.quicknode.com/docs/quicknode-webhooks
+- aid: quicknode:marketplace
+  name: QuickNode Marketplace Add-ons
+  description: >-
+    Catalog of opt-in add-on APIs (NFT API, Token API, DeFi API, Functions, etc.) attached to a QuickNode
+    endpoint.
+  humanURL: https://marketplace.quicknode.com/
+  baseURL: https://{endpoint}.quiknode.pro/{token}
+  tags:
+  - Marketplace
+  - Add-ons
+  properties:
+  - type: Documentation
+    url: https://marketplace.quicknode.com/
+- aid: quicknode:functions
+  name: QuickNode Functions
+  description: >-
+    Serverless on-chain logic runtime for executing custom code triggered by Streams or HTTP.
+  humanURL: https://www.quicknode.com/docs/functions
+  baseURL: https://api.quicknode.com/functions/rest/v1
+  tags:
+  - REST
+  - Serverless
+  properties:
+  - type: Documentation
+    url: https://www.quicknode.com/docs/functions
+- aid: quicknode:quicknode-account-api
+  name: QuickNode Account API
+  description: Fetch account usage information including bandwidth and storage metrics.
+  humanURL: https://www.quicknode.com/docs
+  baseURL: https://{endpoint-name}.{network}.quiknode.pro/{token}
+  tags:
+  - Account
+  properties:
+  - type: OpenAPI
+    url: openapi/quicknode-account-api-openapi.yml
+  - type: Documentation
+    url: https://www.quicknode.com/docs/streams/getting-started
+  - type: Documentation
+    url: https://www.quicknode.com/docs/ipfs/getting-started
+  - type: Documentation
+    url: https://www.quicknode.com/docs/key-value-store
+- aid: quicknode:quicknode-batch-api
+  name: QuickNode Batch API
+  description: Bulk-load operations against a database.
+  humanURL: https://www.quicknode.com/docs
+  baseURL: https://{endpoint-name}.{network}.quiknode.pro/{token}
+  tags:
+  - Batch
+  properties:
+  - type: OpenAPI
+    url: openapi/quicknode-batch-api-openapi.yml
+  - type: Documentation
+    url: https://www.quicknode.com/docs/streams/getting-started
+  - type: Documentation
+    url: https://www.quicknode.com/docs/ipfs/getting-started
+  - type: Documentation
+    url: https://www.quicknode.com/docs/key-value-store
+- aid: quicknode:quicknode-database-api
+  name: QuickNode Database API
+  description: Manage key-value namespaces (databases).
+  humanURL: https://www.quicknode.com/docs
+  baseURL: https://{endpoint-name}.{network}.quiknode.pro/{token}
+  tags:
+  - Database
+  properties:
+  - type: OpenAPI
+    url: openapi/quicknode-database-api-openapi.yml
+  - type: Documentation
+    url: https://www.quicknode.com/docs/streams/getting-started
+  - type: Documentation
+    url: https://www.quicknode.com/docs/ipfs/getting-started
+  - type: Documentation
+    url: https://www.quicknode.com/docs/key-value-store
+- aid: quicknode:quicknode-gateway-api
+  name: QuickNode Gateway API
+  description: Create and manage gateways for retrieving content from the IPFS network.
+  humanURL: https://www.quicknode.com/docs
+  baseURL: https://{endpoint-name}.{network}.quiknode.pro/{token}
+  tags:
+  - Gateway
+  properties:
+  - type: OpenAPI
+    url: openapi/quicknode-gateway-api-openapi.yml
+  - type: Documentation
+    url: https://www.quicknode.com/docs/streams/getting-started
+  - type: Documentation
+    url: https://www.quicknode.com/docs/ipfs/getting-started
+  - type: Documentation
+    url: https://www.quicknode.com/docs/key-value-store
+- aid: quicknode:quicknode-keys-api
+  name: QuickNode Keys API
+  description: Read, write, and delete keys within a database.
+  humanURL: https://www.quicknode.com/docs
+  baseURL: https://{endpoint-name}.{network}.quiknode.pro/{token}
+  tags:
+  - Keys
+  properties:
+  - type: OpenAPI
+    url: openapi/quicknode-keys-api-openapi.yml
+  - type: Documentation
+    url: https://www.quicknode.com/docs/streams/getting-started
+  - type: Documentation
+    url: https://www.quicknode.com/docs/ipfs/getting-started
+  - type: Documentation
+    url: https://www.quicknode.com/docs/key-value-store
+- aid: quicknode:quicknode-logs-api
+  name: QuickNode Logs API
+  description: Inspect Stream execution logs.
+  humanURL: https://www.quicknode.com/docs
+  baseURL: https://{endpoint-name}.{network}.quiknode.pro/{token}
+  tags:
+  - Logs
+  properties:
+  - type: OpenAPI
+    url: openapi/quicknode-logs-api-openapi.yml
+  - type: Documentation
+    url: https://www.quicknode.com/docs/streams/getting-started
+  - type: Documentation
+    url: https://www.quicknode.com/docs/ipfs/getting-started
+  - type: Documentation
+    url: https://www.quicknode.com/docs/key-value-store
+- aid: quicknode:quicknode-pinning-api
+  name: QuickNode Pinning API
+  description: Pin, view, and manage pinned content to ensure its availability on the IPFS network.
+  humanURL: https://www.quicknode.com/docs
+  baseURL: https://{endpoint-name}.{network}.quiknode.pro/{token}
+  tags:
+  - Pinning
+  properties:
+  - type: OpenAPI
+    url: openapi/quicknode-pinning-api-openapi.yml
+  - type: Documentation
+    url: https://www.quicknode.com/docs/streams/getting-started
+  - type: Documentation
+    url: https://www.quicknode.com/docs/ipfs/getting-started
+  - type: Documentation
+    url: https://www.quicknode.com/docs/key-value-store
+- aid: quicknode:quicknode-streams-api
+  name: QuickNode Streams API
+  description: Manage Streams definitions and lifecycle.
+  humanURL: https://www.quicknode.com/docs
+  baseURL: https://{endpoint-name}.{network}.quiknode.pro/{token}
+  tags:
+  - Streams
+  properties:
+  - type: OpenAPI
+    url: openapi/quicknode-streams-api-openapi.yml
+  - type: Documentation
+    url: https://www.quicknode.com/docs/streams/getting-started
+  - type: Documentation
+    url: https://www.quicknode.com/docs/ipfs/getting-started
+  - type: Documentation
+    url: https://www.quicknode.com/docs/key-value-store
 common:
   - type: AgentCard
     url: a2a/quicknode-a2a.yml
