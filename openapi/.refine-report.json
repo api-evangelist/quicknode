@@ -1,0 +1,28 @@
+{
+  "provider": "quicknode",
+  "sources": [
+    "quicknode-account-api-openapi.yml",
+    "quicknode-batch-api-openapi.yml",
+    "quicknode-database-api-openapi.yml",
+    "quicknode-gateway-api-openapi.yml",
+    "quicknode-keys-api-openapi.yml",
+    "quicknode-logs-api-openapi.yml",
+    "quicknode-pinning-api-openapi.yml",
+    "quicknode-streams-api-openapi.yml"
+  ],
+  "outputs": [
+    "quicknode-account-api-openapi.yml",
+    "quicknode-batch-api-openapi.yml",
+    "quicknode-database-api-openapi.yml",
+    "quicknode-gateway-api-openapi.yml",
+    "quicknode-keys-api-openapi.yml",
+    "quicknode-logs-api-openapi.yml",
+    "quicknode-pinning-api-openapi.yml",
+    "quicknode-streams-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

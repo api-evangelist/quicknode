@@ -1,0 +1,142 @@
+openapi: 3.1.0
+info:
+  title: QuickNode Streams REST API
+  description: >-
+    The QuickNode Streams REST API allows developers to create, manage, and
+    monitor Streams, QuickNode's customizable real-time blockchain data feed
+    service. Streams can be configured to deliver filtered event-driven data
+    over destinations such as webhooks or storage targets. The REST API
+    supports listing, creating, pausing, resuming, and inspecting streams,
+    as well as retrieving execution logs.
+  version: '1.0.0'
+  contact:
+    name: QuickNode Support
+    url: https://www.quicknode.com/support
+externalDocs:
+  description: QuickNode Streams Documentation
+  url: https://www.quicknode.com/docs/streams
+servers:
+  - url: https://api.quicknode.com/streams/rest/v1
+    description: QuickNode Streams REST production server
+tags:
+  - name: Streams
+    description: Manage Streams definitions and lifecycle.
+  - name: Logs
+    description: Inspect Stream execution logs.
+paths:
+  /streams:
+    get:
+      tags:
+        - Streams
+      summary: List Streams
+      operationId: listStreams
+      responses:
+        '200':
+          description: Successful response
+    post:
+      tags:
+        - Streams
+      summary: Create a Stream
+      operationId: createStream
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                network:
+                  type: string
+                dataset:
+                  type: string
+                filter:
+                  type: string
+                destination:
+                  type: string
+      responses:
+        '201':
+          description: Stream created
+  /streams/{streamId}:
+    get:
+      tags:
+        - Streams
+      summary: Get Stream details
+      operationId: getStream
+      parameters:
+        - name: streamId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+    delete:
+      tags:
+        - Streams
+      summary: Delete a Stream
+      operationId: deleteStream
+      parameters:
+        - name: streamId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Stream deleted
+  /streams/{streamId}/pause:
+    post:
+      tags:
+        - Streams
+      summary: Pause a Stream
+      operationId: pauseStream
+      parameters:
+        - name: streamId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Stream paused
+  /streams/{streamId}/resume:
+    post:
+      tags:
+        - Streams
+      summary: Resume a Stream
+      operationId: resumeStream
+      parameters:
+        - name: streamId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Stream resumed
+  /streams/{streamId}/logs:
+    get:
+      tags:
+        - Logs
+      summary: List Stream logs
+      operationId: listStreamLogs
+      parameters:
+        - name: streamId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+security:
+  - ApiKeyAuth: []

@@ -1,0 +1,160 @@
+openapi: 3.1.0
+info:
+  title: QuickNode IPFS REST API
+  description: >-
+    The QuickNode IPFS REST API provides programmatic access to QuickNode's
+    managed IPFS pinning, gateway, and account services. Developers can pin
+    files and CIDs to keep them persistently available on the InterPlanetary
+    File System, manage dedicated gateways for retrieval, and inspect account
+    usage including bandwidth and storage. Authentication is performed using
+    an API key issued from the QuickNode dashboard.
+  version: '1.0.0'
+  contact:
+    name: QuickNode Support
+    url: https://www.quicknode.com/support
+  termsOfService: https://www.quicknode.com/terms-of-service
+externalDocs:
+  description: QuickNode IPFS Documentation
+  url: https://www.quicknode.com/docs/ipfs
+servers:
+  - url: https://api.quicknode.com/ipfs/rest
+    description: QuickNode IPFS REST production server
+tags:
+  - name: Pinning
+    description: >-
+      Pin, view, and manage pinned content to ensure its availability on the
+      IPFS network.
+  - name: Gateway
+    description: >-
+      Create and manage gateways for retrieving content from the IPFS network.
+  - name: Account
+    description: >-
+      Fetch account usage information including bandwidth and storage metrics.
+paths:
+  /v1/s3/put-object:
+    post:
+      tags:
+        - Pinning
+      summary: Upload and pin a file
+      description: Upload a file via multipart and pin it to IPFS.
+      operationId: putObject
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                Body:
+                  type: string
+                  format: binary
+                Key:
+                  type: string
+                ContentType:
+                  type: string
+      responses:
+        '200':
+          description: Object pinned
+  /v1/pinning:
+    get:
+      tags:
+        - Pinning
+      summary: List pinned objects
+      operationId: listPins
+      responses:
+        '200':
+          description: Successful response
+    post:
+      tags:
+        - Pinning
+      summary: Pin an existing CID
+      operationId: pinByCid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cid:
+                  type: string
+                name:
+                  type: string
+      responses:
+        '201':
+          description: Pin created
+  /v1/pinning/{requestId}:
+    get:
+      tags:
+        - Pinning
+      summary: Get a pin by request id
+      operationId: getPin
+      parameters:
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+    delete:
+      tags:
+        - Pinning
+      summary: Unpin an object
+      operationId: deletePin
+      parameters:
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Pin removed
+  /v1/gateways:
+    get:
+      tags:
+        - Gateway
+      summary: List gateways
+      operationId: listGateways
+      responses:
+        '200':
+          description: Successful response
+    post:
+      tags:
+        - Gateway
+      summary: Create gateway
+      operationId: createGateway
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                customDomain:
+                  type: string
+      responses:
+        '201':
+          description: Gateway created
+  /v1/account/usage:
+    get:
+      tags:
+        - Account
+      summary: Get account usage
+      description: Returns current bandwidth and storage usage for the account.
+      operationId: getAccountUsage
+      responses:
+        '200':
+          description: Successful response
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+security:
+  - ApiKeyAuth: []
