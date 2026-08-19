@@ -1,0 +1,44 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "QuickNode IPFS REST Account Logs API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-api-key",
+      "value": "{{x-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Logs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Stream logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.quicknode.com/ipfs/rest/streams/:streamId/logs",
+            "params": [
+              {
+                "name": "streamId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List Stream logs"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,99 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "QuickNode IPFS REST Account Keys API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-api-key",
+      "value": "{{x-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a value by key",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.quicknode.com/ipfs/rest/databases/:database/keys/:key",
+            "params": [
+              {
+                "name": "database",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a value by key"
+        },
+        {
+          "info": {
+            "name": "Set a value for a key",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.quicknode.com/ipfs/rest/databases/:database/keys/:key",
+            "params": [
+              {
+                "name": "database",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set a value for a key"
+        },
+        {
+          "info": {
+            "name": "Delete a key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.quicknode.com/ipfs/rest/databases/:database/keys/:key",
+            "params": [
+              {
+                "name": "database",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a key"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
