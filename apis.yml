@@ -25,7 +25,7 @@ tags:
   - RPC
   - Streams
   - IPFS
-  - Multi-chain
+  - Multi-Chain
 tags_raw:
   - Web3
   - Blockchain
@@ -48,7 +48,7 @@ apis:
   - JSON-RPC
   - WebSocket
   - gRPC
-  - Multi-chain
+  - Multi-Chain
   tags_raw:
   - JSON-RPC
   - WebSocket
