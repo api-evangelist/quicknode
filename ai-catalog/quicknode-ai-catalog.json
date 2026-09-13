@@ -1,0 +1,71 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "Quicknode",
+    "identifier": "quicknode.com",
+    "documentationUrl": "https://www.quicknode.com/agents.md",
+    "logoUrl": "https://www.quicknode.com/icon.png"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:quicknode.com:mcp:infrastructure",
+      "displayName": "Quicknode MCP Server",
+      "type": "application/mcp-server-card+json",
+      "url": "https://www.quicknode.com/.well-known/mcp/server-card.json",
+      "description": "Manage Quicknode endpoints, security, rate limits, usage, and billing through MCP.",
+      "tags": [
+        "blockchain",
+        "infrastructure",
+        "mcp"
+      ]
+    },
+    {
+      "identifier": "urn:air:quicknode.com:agent:blockchain",
+      "displayName": "Quicknode Blockchain Agent",
+      "type": "application/a2a-agent-card+json",
+      "url": "https://www.quicknode.com/.well-known/agent-card.json",
+      "description": "Discover Quicknode blockchain data, payments, and infrastructure capabilities for agents.",
+      "tags": [
+        "blockchain",
+        "x402",
+        "mpp"
+      ]
+    },
+    {
+      "identifier": "urn:air:quicknode.com:api:agent",
+      "displayName": "Quicknode Agent API",
+      "type": "application/openapi+json",
+      "url": "https://www.quicknode.com/openapi.json",
+      "description": "OpenAPI description for agent subscription provisioning and x402 discovery.",
+      "tags": [
+        "openapi",
+        "x402",
+        "api"
+      ]
+    },
+    {
+      "identifier": "urn:air:quicknode.com:skills:blockchain",
+      "displayName": "Quicknode Agent Skills",
+      "type": "application/json",
+      "url": "https://www.quicknode.com/.well-known/agent-skills/index.json",
+      "description": "Installable Quicknode skills and integration guides for coding agents.",
+      "tags": [
+        "skills",
+        "blockchain",
+        "development"
+      ]
+    },
+    {
+      "identifier": "urn:air:quicknode.com:plugin:build-web3",
+      "displayName": "Quicknode Build Web3 Agent Plugin",
+      "type": "application/json",
+      "url": "https://raw.githubusercontent.com/quicknode/agent-plugins/main/plugins/build-web3/.cursor-plugin/plugin.json",
+      "description": "Installable coding-agent plugin that packages blockchain skills with optional Quicknode MCP access.",
+      "tags": [
+        "plugin",
+        "skills",
+        "mcp"
+      ]
+    }
+  ]
+}
