@@ -54,6 +54,7 @@ conformance:
       type. ARD permits extension types without core registration.'
     - '[Quicknode Build Web3 Agent Plugin] Media type ''application/json'' is a valid application extension
       media type. ARD permits extension types without core registration.'
+  did_web: null
 catalog:
   host_display_name: Quicknode
   host_identifier: quicknode.com
