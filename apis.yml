@@ -270,6 +270,8 @@ common:
     url: rate-limits/quicknode-rate-limits.yml
   - type: FinOps
     url: finops/quicknode-finops.yml
+  - type: Support
+    url: https://www.quicknode.com/contact-us
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
