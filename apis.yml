@@ -169,6 +169,8 @@ apis:
   humanURL: https://www.quicknode.com/docs
   baseURL: https://{endpoint-name}.{network}.quiknode.pro/{token}
   tags:
+  - Gateways
+  tags_raw:
   - Gateway
   properties:
   - type: OpenAPI
