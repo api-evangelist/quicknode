@@ -1,15 +1,14 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: QuickNode IPFS REST Account Logs API
-  description: The QuickNode IPFS REST API provides programmatic access to QuickNode's managed IPFS pinning, gateway, and account services. Developers can pin files and CIDs to keep them persistently available on the InterPlanetary File System, manage dedicated gateways for retrieval, and inspect account usage including bandwidth and storage. Authentication is performed using an API key issued from the QuickNode dashboard.
+  title: QuickNode Streams REST Logs API
+  description: The QuickNode Streams REST API allows developers to create, manage, and monitor Streams, QuickNode's customizable real-time blockchain data feed service. Streams can be configured to deliver filtered event-driven data over destinations such as webhooks or storage targets. The REST API supports listing, creating, pausing, resuming, and inspecting streams, as well as retrieving execution logs.
   version: 1.0.0
   contact:
     name: QuickNode Support
     url: https://www.quicknode.com/support
-  termsOfService: https://www.quicknode.com/terms-of-service
 servers:
-- url: https://api.quicknode.com/ipfs/rest
-  description: QuickNode IPFS REST production server
+- url: https://api.quicknode.com/streams/rest/v1
+  description: QuickNode Streams REST production server
 security:
 - ApiKeyAuth: []
 tags:
@@ -38,5 +37,5 @@ components:
       in: header
       name: x-api-key
 externalDocs:
-  description: QuickNode IPFS Documentation
-  url: https://www.quicknode.com/docs/ipfs
+  description: QuickNode Streams Documentation
+  url: https://www.quicknode.com/docs/streams

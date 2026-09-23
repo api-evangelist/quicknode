@@ -1,28 +1,38 @@
 {
   "provider": "quicknode",
   "sources": [
-    "quicknode-account-api-openapi.yml",
-    "quicknode-batch-api-openapi.yml",
-    "quicknode-database-api-openapi.yml",
-    "quicknode-gateway-api-openapi.yml",
-    "quicknode-keys-api-openapi.yml",
-    "quicknode-logs-api-openapi.yml",
-    "quicknode-pinning-api-openapi.yml",
-    "quicknode-streams-api-openapi.yml"
+    "_original/quicknode-ipfs-openapi.yml",
+    "_original/quicknode-key-value-store-openapi.yml",
+    "_original/quicknode-streams-openapi.yml"
   ],
   "outputs": [
     "quicknode-account-api-openapi.yml",
+    "quicknode-gateway-api-openapi.yml",
+    "quicknode-pinning-api-openapi.yml",
     "quicknode-batch-api-openapi.yml",
     "quicknode-database-api-openapi.yml",
-    "quicknode-gateway-api-openapi.yml",
     "quicknode-keys-api-openapi.yml",
     "quicknode-logs-api-openapi.yml",
-    "quicknode-pinning-api-openapi.yml",
     "quicknode-streams-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (3 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "quicknode-ipfs-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "quicknode-key-value-store-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "quicknode-streams-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "quicknode-account-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "quicknode-batch-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "quicknode-database-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "quicknode-gateway-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "quicknode-keys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "quicknode-logs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "quicknode-pinning-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "quicknode-streams-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
