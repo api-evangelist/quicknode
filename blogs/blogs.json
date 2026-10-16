@@ -1,0 +1,14 @@
+{
+  "repo": "quicknode",
+  "feeds": [
+    {
+      "source": "https://www.quicknode.com/blog",
+      "feed_url": "https://www.quicknode.com/blog/rss/",
+      "title": "",
+      "saved": 2,
+      "method": "discovered"
+    }
+  ],
+  "post_count": 2,
+  "fetched": "2026-10-10T13:15:00Z"
+}
